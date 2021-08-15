@@ -1,0 +1,12 @@
+.usersWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+}

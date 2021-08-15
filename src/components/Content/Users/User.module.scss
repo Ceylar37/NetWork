@@ -1,0 +1,21 @@
+.userWrapper {
+  display: flex;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    button {
+      background-color: #333333;
+      font-weight: bold;
+    }
+  }
+
+  border: azure solid 2px;
+  border-radius: 10px;
+
+  a {
+    img {
+    width: 100%;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+.contactsWrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+  .label {
+    font-size: 36px;
+  }
+}

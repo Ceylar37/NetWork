@@ -1,0 +1,19 @@
+
+
+.topProfileLinkWrapper {
+  display: flex;
+
+  div {
+    display: flex;
+
+    button {
+      background-color: #333333;
+      font-weight: bold;
+    }
+
+    img {
+      height: 100%;
+    }
+  }
+}
+
