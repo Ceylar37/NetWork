@@ -5,7 +5,7 @@ import {ResultCodeEnum} from "../../types/RequestTypes";
 
 export let usersInitialState = {
     users: [] as Array<UserT>,
-    pageSize: 4,
+    pageSize: 50,
     currentPage: 1,
     currentPortion: 1,
     isFetching: false,
@@ -87,16 +87,16 @@ export const requestUsers = (currentPage: number, pageSize: number): UsersThunkR
 
 export const setFollow = (id: number): UsersThunkResultT<Promise<void>> =>
     async dispatch => {
-        _followUnfollowFlow(dispatch, id, usersAPI.follow.bind(usersAPI), usersActions.follow)
+        await _followUnfollowFlow(dispatch, id, usersAPI.follow.bind(usersAPI), usersActions.follow)
     }
 
 export const setUnfollow = (id: number): UsersThunkResultT<Promise<void>> =>
     async dispatch => {
-        _followUnfollowFlow(dispatch, id, usersAPI.unfollow.bind(usersAPI), usersActions.unfollow)
+        await _followUnfollowFlow(dispatch, id, usersAPI.unfollow.bind(usersAPI), usersActions.unfollow)
     }
 
 
-const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionT>, id: number, apiMethod: Function, actionCreator: Function) => {
+const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionT>, id: number, apiMethod: (id: number) => Promise<ResultCodeEnum>, actionCreator: Function) => {
     dispatch(usersActions.toggleFollowingProgress(true, id))
     let resultCode = await apiMethod(id)
     if (resultCode === ResultCodeEnum.Success) {

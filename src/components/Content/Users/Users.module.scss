@@ -3,10 +3,18 @@
   align-items: center;
   flex-direction: column;
 
-  div {
+  /*div {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     padding: 10px;
-  }
+  }*/
+}
+
+.usersList {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 100%;
+  align-items: center;
 }

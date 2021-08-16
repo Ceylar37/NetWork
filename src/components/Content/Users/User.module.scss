@@ -1,21 +1,29 @@
 .userWrapper {
   display: flex;
+  width: 90%;
+  height: 100px;
+  border: 2px solid azure;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  padding: 10px;
 
-  div {
+  a {
     display: flex;
-    flex-direction: column;
-    button {
-      background-color: #333333;
-      font-weight: bold;
+    margin-left: 10px;
+    img {
+      height: 100%;
     }
   }
 
-  border: azure solid 2px;
-  border-radius: 10px;
-
-  a {
-    img {
-    width: 100%;
+  div {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    button {
+      background-color: #333333;
+      font-weight: bold;
     }
   }
 }

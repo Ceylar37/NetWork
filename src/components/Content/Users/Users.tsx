@@ -22,15 +22,19 @@ type PropsT = {
 const Users: React.FC<PropsT> = (props) => {
     return (
         <div className={s.usersWrapper}>
-            <Pagination
-                currentPage={props.currentPage}
-                setCurrentPage={props.setCurrentPage}
-                onPageChanged={props.onPageChanged}
-                currentPortion={props.currentPortion}
-                pageSize={props.pageSize}
-                changeCurrentPortion={props.changeCurrentPortion}
-                totalCount={props.totalCount}/>
             <div>
+                <Pagination
+                    currentPage={props.currentPage}
+                    setCurrentPage={props.setCurrentPage}
+                    onPageChanged={props.onPageChanged}
+                    currentPortion={props.currentPortion}
+                    pageSize={props.pageSize}
+                    changeCurrentPortion={props.changeCurrentPortion}
+                    totalCount={props.totalCount}
+                />
+                
+            </div>
+            <div className={s.usersList}>
                 {
                     props.users.map(user => <User
                         key={user.id}

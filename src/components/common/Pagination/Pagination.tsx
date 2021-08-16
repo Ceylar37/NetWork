@@ -28,7 +28,7 @@ const Pagination: React.FC<PropsT> = (props) => {
                 ? <button onClick={() => {props.changeCurrentPortion(-1)}}>previous</button>
                 : null}
             {pages.map((page:number) => {
-                return <button onClick={() => {
+                return <button id={(props.currentPage === page) ? s.active : ''} disabled={props.currentPage === page} onClick={() => {
                     props.setCurrentPage(page);
                 }}>{page}</button>
             })}
