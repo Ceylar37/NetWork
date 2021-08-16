@@ -3,12 +3,6 @@
   align-items: center;
   flex-direction: column;
 
-  /*div {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
-  }*/
 }
 
 .usersList {
@@ -17,4 +11,12 @@
   padding: 40px;
   width: 100%;
   align-items: center;
+}
+
+.usersTopPanel {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  width: 90%;
+  justify-content: space-around;
 }

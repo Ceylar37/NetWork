@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import {UserT} from "../../../types/UsersTypes";
+import {UserT} from "../../../../types/UsersTypes";
 import s from './User.module.scss'
 
 type PropsT = {

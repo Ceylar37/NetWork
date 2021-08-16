@@ -1,8 +1,9 @@
 import React from 'react'
 import {UsersActionsTypes, UserT} from "../../../types/UsersTypes"
-import User from "./User"
+import User from "./User/User"
 import s from './Users.module.scss'
 import Pagination from "../../common/Pagination/Pagination";
+import UsersSearchForm from "./UsersSearchForm/UsersSearchForm";
 
 type PropsT = {
     totalCount: number | null,
@@ -22,7 +23,7 @@ type PropsT = {
 const Users: React.FC<PropsT> = (props) => {
     return (
         <div className={s.usersWrapper}>
-            <div>
+            <div className={s.usersTopPanel}>
                 <Pagination
                     currentPage={props.currentPage}
                     setCurrentPage={props.setCurrentPage}
@@ -32,7 +33,7 @@ const Users: React.FC<PropsT> = (props) => {
                     changeCurrentPortion={props.changeCurrentPortion}
                     totalCount={props.totalCount}
                 />
-                
+                <UsersSearchForm/>
             </div>
             <div className={s.usersList}>
                 {
