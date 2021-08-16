@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Field, Form} from 'react-final-form';
 import {ProfileT} from "../../../../types/ProfileTypes";
 import s from './ProfileInfo.module.scss'
 
@@ -26,7 +25,7 @@ const ProfileInfo: React.FC<PropsT> = (props) => {
     }
 
     const onStatusInputBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
-        if (status != props.status) {
+        if (status !== props.status) {
             e.currentTarget.disabled = true
             await props.updateStatus(status)
             toggleStatusEditMode(false)

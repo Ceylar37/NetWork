@@ -25,15 +25,15 @@ const Pagination: React.FC<PropsT> = (props) => {
     return (<div className={s.paginationWrapper}>
         <span>
             {(props.currentPortion !== 1)
-                ? <button onClick={() => {props.changeCurrentPortion(-1)}}>previous</button>
+                ? <button className='button' onClick={() => {props.changeCurrentPortion(-1)}}>previous</button>
                 : null}
             {pages.map((page:number) => {
-                return <button id={(props.currentPage === page) ? s.active : ''} disabled={props.currentPage === page} onClick={() => {
+                return <button className='button' id={(props.currentPage === page) ? s.active : ''} disabled={props.currentPage === page} onClick={() => {
                     props.setCurrentPage(page);
                 }}>{page}</button>
             })}
-            {(curMax <= maxPage)
-                ? <button onClick={() => {props.changeCurrentPortion(1);}}>next</button>
+            {(curMax < maxPage)
+                ? <button className='button' onClick={() => {props.changeCurrentPortion(1);}}>next</button>
                 : null}
             </span>
         </div>

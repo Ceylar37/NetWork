@@ -18,8 +18,12 @@ const instance = axios.create({
 })
 
 export const usersAPI = {
-    getUsers(currentPage: number, pageSize: number) {
-        return instance.get<UsersResponseT>(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
+    getUsers(currentPage: number, pageSize: number, term: string = '', friend: null | boolean = null) {
+        return instance.get<UsersResponseT>(
+            `users?page=${currentPage}&count=${pageSize}`
+            + ((term !== '') ? `&term=${term}` : '')
+            + ((friend === null) ? '' : `&friend=${friend}`))
+            .then(response => response.data)
     },
     follow(id: number) {
         return instance.post<Put_Delete_PostResponseT>(`follow/${id}`).then(response => {

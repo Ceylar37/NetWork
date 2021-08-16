@@ -79,7 +79,7 @@ const Login: React.FC<PropsFromRedux> = ({login, isAuthorised, captchaUrl}) => {
                              {error}
                          </div> : null}
                          <div>
-                             <button type={"submit"} disabled={submitting}>Login</button>
+                             <button className='button' type={"submit"} disabled={submitting}>Login</button>
                          </div>
                      </form>)}
     />

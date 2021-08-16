@@ -99,7 +99,7 @@ const Profile: React.FC<PropsT> = (props) => {
                                             <ContactsForm submitting={submitting} contacts={props.profile.contacts}/>
                                         </div>
                                         <div className={s.buttons}>
-                                            <button type={'submit'} disabled={submitting}>Save Changes</button>
+                                            <button className='button' type={'submit'} disabled={submitting}>Save Changes</button>
                                         </div>
                                         {errors ? <span className={s.error}>{errors.map(e =>
                                             <span>{e}<br/></span>)}</span> : null}
@@ -115,10 +115,10 @@ const Profile: React.FC<PropsT> = (props) => {
                         </div>
                         {props.isOwner
                             ? <div className={s.buttons}>
-                                {!isProfileDataEditModeOn ? <button onClick={() => {
+                                {!isProfileDataEditModeOn ? <button className='button' onClick={() => {
                                     toggleProfileDataEditMode(true)
-                                }}>Edit Profile Info</button> : <button>Save Changes</button>}
-                                <button onClick={imitateClickOnInp}>Update Profile Photo</button>
+                                }}>Edit Profile Info</button> : <button className='button'>Save Changes</button>}
+                                <button className='button' onClick={imitateClickOnInp}>Update Profile Photo</button>
                                 <input ref={inpRef} type={'file'}/>
                             </div>
                             : null}

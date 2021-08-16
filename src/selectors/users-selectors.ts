@@ -1,4 +1,5 @@
 import {RootStateT} from "../types/GlobalTypes";
+import {FilterT} from "../types/UsersTypes";
 
 export const getUsers = (state: RootStateT) => {
     return state.usersPage.users
@@ -25,6 +26,9 @@ export const getFollowingInProgress = (state: RootStateT): Array<number> => {
 }
 
 export const getCurrentPortion = (state: RootStateT): number => {
-    return state.usersPage.currentPortion;
+    return state.usersPage.currentPortion
 }
 
+export const getFilter = (state: RootStateT): FilterT => {
+    return state.usersPage.filter
+}

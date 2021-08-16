@@ -3,14 +3,15 @@ import {PhotosT} from "./ProfileTypes";
 import {PropertiesType, ThunkResultT} from "./GlobalTypes";
 
 export enum UsersActionsTypes {
-    FOLLOW = 'user/FOLLOW',
-    UNFOLLOW = 'user/UNFOLLOW',
-    SET_USERS = 'user/SET-USERS',
-    SET_CURRENT_PAGE = 'user/SET-CURRENT-PAGE',
-    SET_TOTAL_COUNT = 'user/SET-TOTAL-USERS-COUNT',
-    SET_FETCH = 'user/SET-FETCH',
-    TOGGLE_IS_FOLLOWING_PROGRESS = 'user/TOGGLE-IS-FOLLOWING-PROGRESS',
-    CHANGE_CURRENT_PORTION = 'CHANGE-CURRENT-PORTION',
+    FOLLOW = 'users/FOLLOW',
+    UNFOLLOW = 'users/UNFOLLOW',
+    SET_USERS = 'users/SET-USERS',
+    SET_CURRENT_PAGE = 'users/SET-CURRENT-PAGE',
+    SET_TOTAL_COUNT = 'users/SET-TOTAL-USERS-COUNT',
+    SET_FETCH = 'users/SET-FETCH',
+    TOGGLE_IS_FOLLOWING_PROGRESS = 'users/TOGGLE-IS-FOLLOWING-PROGRESS',
+    CHANGE_CURRENT_PORTION = 'users/CHANGE-CURRENT-PORTION',
+    CHANGE_FILTER = 'users/CHANGE_FILTER'
 }
 
 export type UsersStateT = typeof usersInitialState
@@ -21,6 +22,11 @@ export type UserT = {
     photos: PhotosT,
     status: string,
     followed: boolean
+}
+
+export type FilterT = {
+    term: string
+    friend: null | boolean
 }
 
 export type UsersActionT = ReturnType<PropertiesType<typeof usersActions>>

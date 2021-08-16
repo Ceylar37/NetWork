@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Field, Form} from "react-final-form";
+import {Field} from "react-final-form";
 import s from './ProfileInfo.module.scss'
 import {ProfileT} from "../../../../types/ProfileTypes";
 

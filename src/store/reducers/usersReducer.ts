@@ -1,18 +1,19 @@
-import {UsersActionsTypes, UsersActionT, UsersStateT, UsersThunkResultT, UserT} from "../../types/UsersTypes";
+import {FilterT, UsersActionsTypes, UsersActionT, UsersStateT, UsersThunkResultT, UserT} from "../../types/UsersTypes";
 import {Dispatch} from "redux";
 import {usersAPI} from "../../serverApi/serverApi";
 import {ResultCodeEnum} from "../../types/RequestTypes";
 
 export let usersInitialState = {
     users: [] as Array<UserT>,
-    pageSize: 50,
+    pageSize: 10,
     currentPage: 1,
     currentPortion: 1,
     isFetching: false,
     followingInProgress: [] as Array<number>,
     totalCount: null as number | null,
     filter: {
-        term: ''
+        term: '',
+        friend: null as boolean | null
     }
 }
 
@@ -51,6 +52,11 @@ const usersReducer = (state = usersInitialState, action: UsersActionT): UsersSta
                 ...state,
                 currentPortion: state.currentPortion + action.change,
             }
+        case UsersActionsTypes.CHANGE_FILTER:
+            return {
+                ...state,
+                filter: action.payload
+            }
         default:
             return state
     }
@@ -76,13 +82,14 @@ export const usersActions = {
         isFetching,
         id
     } as const),
-    changeCurrentPortion: (change: number) => ({type: UsersActionsTypes.CHANGE_CURRENT_PORTION, change} as const)
+    changeCurrentPortion: (change: number) => ({type: UsersActionsTypes.CHANGE_CURRENT_PORTION, change} as const),
+    changeFilters: (payload: FilterT) => ({type: UsersActionsTypes.CHANGE_FILTER, payload} as const)
 }
 
-export const requestUsers = (currentPage: number, pageSize: number): UsersThunkResultT<Promise<void>> =>
+export const requestUsers = (currentPage: number, pageSize: number, payload: FilterT): UsersThunkResultT<Promise<void>> =>
     async dispatch => {
         dispatch(usersActions.setFetch(true))
-        let data = await usersAPI.getUsers(currentPage, pageSize)
+        let data = await usersAPI.getUsers(currentPage, pageSize, payload.term, payload.friend)
         dispatch(usersActions.setFetch(false))
         dispatch(usersActions.setUsers(data.items))
         dispatch(usersActions.setTotalCount(data.totalCount))
@@ -107,5 +114,16 @@ const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionT>, id: number,
         dispatch(usersActions.toggleFollowingProgress(false, id))
     }
 }
+
+export const changeFiltersAndRequestUsers = (pageSize:number, payload: FilterT): UsersThunkResultT<Promise<void>> =>
+    async dispatch => {
+        dispatch(usersActions.changeFilters(payload))
+        dispatch(usersActions.setFetch(true))
+        dispatch(usersActions.setCurrentPage(1))
+        let data = await usersAPI.getUsers(1, pageSize, payload.term, payload.friend)
+        dispatch(usersActions.setFetch(false))
+        dispatch(usersActions.setUsers(data.items))
+        dispatch(usersActions.setTotalCount(data.totalCount))
+    }
 
 export default usersReducer

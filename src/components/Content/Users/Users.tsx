@@ -1,5 +1,5 @@
 import React from 'react'
-import {UsersActionsTypes, UserT} from "../../../types/UsersTypes"
+import {FilterT, UsersActionsTypes, UserT} from "../../../types/UsersTypes"
 import User from "./User/User"
 import s from './Users.module.scss'
 import Pagination from "../../common/Pagination/Pagination";
@@ -18,6 +18,7 @@ type PropsT = {
     changeCurrentPortion: (change: number) => { change: number, type: UsersActionsTypes.CHANGE_CURRENT_PORTION },
     setFollow: (id: number) => Promise<void>
     setUnfollow: (id: number) => Promise<void>
+    changeFiltersAndRequestUsers: (pageSize:number, payload: FilterT) => Promise<void>
 }
 
 const Users: React.FC<PropsT> = (props) => {
@@ -33,7 +34,7 @@ const Users: React.FC<PropsT> = (props) => {
                     changeCurrentPortion={props.changeCurrentPortion}
                     totalCount={props.totalCount}
                 />
-                <UsersSearchForm/>
+                <UsersSearchForm currentPage={props.currentPage} pageSize={props.pageSize} changeFiltersAndRequestUsers={props.changeFiltersAndRequestUsers}/>
             </div>
             <div className={s.usersList}>
                 {
