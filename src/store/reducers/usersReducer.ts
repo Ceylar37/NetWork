@@ -11,6 +11,9 @@ export let usersInitialState = {
     isFetching: false,
     followingInProgress: [] as Array<number>,
     totalCount: null as number | null,
+    filter: {
+        term: ''
+    }
 }
 
 const usersReducer = (state = usersInitialState, action: UsersActionT): UsersStateT => {
