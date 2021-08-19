@@ -15,7 +15,7 @@ beforeEach(() => {
 })
 
 const result: UsersResponseT = {
-    error: [],
+    errorMessage: [],
     items: [
         {
             name: '0',

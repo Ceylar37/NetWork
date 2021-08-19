@@ -9,3 +9,5 @@ export const getMyId = (state: RootStateT): Nullable<number> => state.auth.id
 export const getInitialize = (state: RootStateT): boolean => state.app.initialized
 
 export const getCaptchaUrl = (state: RootStateT): Nullable<string> => state.auth.captchaUrl
+
+export const getErrorMessage = (state: RootStateT): Nullable<string> => state.auth.errorMessage

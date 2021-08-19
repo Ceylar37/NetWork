@@ -11,6 +11,7 @@ export let authInitialState = {
     isAuthorised: false,
     captchaUrl: null as string | null,
     photo: null as string | null,
+    errorMessage: null as string | null
 }
 
 const authReducer = (state = authInitialState, action: AuthActionT): AuthStateT => {
@@ -25,6 +26,11 @@ const authReducer = (state = authInitialState, action: AuthActionT): AuthStateT 
                 ...state,
                 captchaUrl: action.url,
             }
+        case AuthActionsType.SET_ERROR:
+            return {
+                ...state,
+                errorMessage: action.errorMessage
+            }
         default:
             return state
     }
@@ -34,7 +40,8 @@ export const authActions = {
     setUserData: (id: Nullable<number>, email: Nullable<string>, login: Nullable<string>, photo: Nullable<string>,  isAuthorised: boolean) => ({
         type: AuthActionsType.SET_USER_DATA, payload: {id, email, login, photo, isAuthorised}
     } as const),
-    setCaptchaUrl: (url: string) => ({type: AuthActionsType.SET_CAPTCHA_URL, url} as const)
+    setCaptchaUrl: (url: string) => ({type: AuthActionsType.SET_CAPTCHA_URL, url} as const),
+    setErrors: (errorMessage: Nullable<string>) => ({type: AuthActionsType.SET_ERROR, errorMessage} as const)
 }
 
 export const auth = (): AuthThunkResultT<Promise<void>> => async dispatch => {
@@ -53,17 +60,17 @@ const getCaptchaURL = (): AuthThunkResultT<Promise<void>> => async dispatch => {
 }
 
 export const login = (email: string, password: string, rememberMe: boolean, captcha: string | null = null)
-    : AuthThunkResultT<Promise<number | string>> => async dispatch => {
+    : AuthThunkResultT<Promise<void>> => async dispatch => {
     let data = await authAPI.login(email, password, rememberMe, captcha)
     if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(auth())
-        return 0
+        dispatch(authActions.setErrors(null))
     } else {
         if (data.resultCode === ResultCodeEnum.RequireCaptcha) {
             dispatch(getCaptchaURL())
         }
         let message = data.messages.length > 0 ? data.messages[0] : 'Something went wrong!'
-        return message
+        dispatch(authActions.setErrors(message))
     }
 }
 

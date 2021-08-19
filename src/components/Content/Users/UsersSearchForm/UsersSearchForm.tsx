@@ -1,7 +1,8 @@
 import React from 'react';
 import {Field, Form} from "react-final-form";
 import s from './UsersSearchForm.module.scss'
-import {FilterT} from "../../../../types/UsersTypes";
+import {useDispatch} from "react-redux";
+import {changeFiltersAndRequestUsers} from "../../../../store/reducers/usersReducer";
 
 type ValuesT = {
     username: string
@@ -11,11 +12,13 @@ type ValuesT = {
 type PropsT = {
     pageSize: number,
     currentPage: number,
-
-    changeFiltersAndRequestUsers: (pageSize:number, payload: FilterT) => void
 }
 
+
+
 const UsersSearchForm: React.FC<PropsT> = (props) => {
+
+    const dispatch = useDispatch()
 
     let onSubmit = (values: ValuesT) => {
         let isFriend: boolean | null
@@ -32,7 +35,7 @@ const UsersSearchForm: React.FC<PropsT> = (props) => {
             default:
                 isFriend = null
         }
-        props.changeFiltersAndRequestUsers(props.pageSize, {term: values.username, friend: isFriend})
+        dispatch(changeFiltersAndRequestUsers(props.pageSize, {term: values.username, friend: isFriend}))
     }
 
     return (

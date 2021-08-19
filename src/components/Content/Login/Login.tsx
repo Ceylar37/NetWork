@@ -1,16 +1,12 @@
 import React, {useState} from "react"
 import { Form, Field } from 'react-final-form'
-import {connect, ConnectedProps} from "react-redux"
+import {connect, ConnectedProps, useDispatch, useSelector} from "react-redux"
 import {Redirect} from 'react-router'
-import {RootStateT} from "../../../types/GlobalTypes";
 import {login} from "../../../store/reducers/authReducer";
-import {getCaptchaUrl, getIsAuthorised} from "../../../selectors/auth-selector";
+import {getCaptchaUrl, getErrorMessage, getIsAuthorised} from "../../../selectors/auth-selector";
 import s from './Login.module.scss'
 
-type MapStatePropsT = {
-    isAuthorised: boolean,
-    captchaUrl: null | string
-}
+
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
@@ -27,10 +23,16 @@ type FormData = {
     captcha: string | null
 }
 
-const Login: React.FC<PropsFromRedux> = ({login, isAuthorised, captchaUrl}) => {
-    let [error, editError] = useState<number | string>(0)
+const Login: React.FC<PropsFromRedux> = () => {
+
+    const dispatch = useDispatch()
+
+    const errorMessage = useSelector(getErrorMessage)
+    const isAuthorised = useSelector(getIsAuthorised)
+    const captchaUrl = useSelector(getCaptchaUrl)
+
     const onSubmit = async (formData: FormData) => {
-        editError(await login(formData.email, formData.password, formData.rememberMe, formData.captcha))
+        dispatch(login(formData.email, formData.password, formData.rememberMe, formData.captcha))
     }
     if (isAuthorised) {
         return <Redirect to={'/profile'}/>
@@ -75,8 +77,8 @@ const Login: React.FC<PropsFromRedux> = ({login, isAuthorised, captchaUrl}) => {
                              Please, enter the characters from the picture
                              <Field component={"input"} name={'captcha'} />
                          </div>}
-                         {error ? <div>
-                             {error}
+                         {errorMessage ? <div>
+                             {errorMessage}
                          </div> : null}
                          <div>
                              <button className='button' type={"submit"} disabled={submitting}>Login</button>
@@ -85,11 +87,7 @@ const Login: React.FC<PropsFromRedux> = ({login, isAuthorised, captchaUrl}) => {
     />
 }
 
-let mapStateToProps = (state: RootStateT): MapStatePropsT => ({
-    isAuthorised: getIsAuthorised(state),
-    captchaUrl: getCaptchaUrl(state),
-})
 
-const connector = connect(mapStateToProps, {login})
+const connector = connect(null, {login})
 
 export default connector(Login)

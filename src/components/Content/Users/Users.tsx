@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import {FilterT} from "../../../types/UsersTypes"
 import User from "./User/User"
 import s from './Users.module.scss'
 import Pagination from "../../common/Pagination/Pagination";
@@ -7,24 +6,18 @@ import UsersSearchForm from "./UsersSearchForm/UsersSearchForm";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getCurrentPage,
-    getCurrentPortion, getFilter,
-    getFollowingInProgress, getIsUsersFetching,
+    getCurrentPortion,
+    getFilter,
+    getFollowingInProgress,
+    getIsUsersFetching,
     getPageSize,
-    getTotalCount, getUsers
+    getTotalCount,
+    getUsers
 } from "../../../selectors/users-selectors";
-import {
-    changeFiltersAndRequestUsers,
-    requestUsers,
-    setFollow,
-    setUnfollow,
-    usersActions
-} from "../../../store/reducers/usersReducer"
+import {requestUsers, setFollow, setUnfollow, usersActions} from "../../../store/reducers/usersReducer"
 import Preloader from "../../common/Preloader/Preloader";
 
-type PropsT = {
-}
-
-const Users: React.FC<PropsT> = (props) => {
+const Users: React.FC = () => {
 
     const dispatch = useDispatch()
 
@@ -53,16 +46,12 @@ const Users: React.FC<PropsT> = (props) => {
         dispatch(usersActions.changeCurrentPortion(change))
     }
 
-    const setFollow = (id: number) => {
+    const follow = (id: number) => {
         dispatch(setFollow(id))
     }
 
-    const setUnfollow = (id: number) => {
+    const unfollow = (id: number) => {
         dispatch(setUnfollow(id))
-    }
-
-    const changeFiltersAndRequestUsers = (pageSize: number, payload: FilterT) => {
-        dispatch(changeFiltersAndRequestUsers(pageSize, payload))
     }
 
     return (
@@ -78,8 +67,7 @@ const Users: React.FC<PropsT> = (props) => {
                     changeCurrentPortion={changeCurrentPortion}
                     totalCount={totalCount}
                 />
-                <UsersSearchForm currentPage={currentPage} pageSize={pageSize}
-                                 changeFiltersAndRequestUsers={changeFiltersAndRequestUsers}/>
+                <UsersSearchForm currentPage={currentPage} pageSize={pageSize}/>
             </div>
             <div className={s.usersList}>
                 {
@@ -87,8 +75,8 @@ const Users: React.FC<PropsT> = (props) => {
                         key={user.id}
                         user={user}
                         followingInProgress={followingInProgress}
-                        setFollow={setFollow}
-                        setUnfollow={setUnfollow}/>
+                        setFollow={follow}
+                        setUnfollow={unfollow}/>
                     )
                 }
             </div>
