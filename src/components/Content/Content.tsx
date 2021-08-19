@@ -1,9 +1,9 @@
 import React from 'react';
 import {Route, Switch} from "react-router-dom";
-import Users from "./Users/UsersContainer";
 import s from './Content.module.scss'
 import ProfileContainer from "./Profile/ProfileContainer";
 import Login from "./Login/Login";
+import Users from "./Users/Users";
 
 const Content = () => {
     return (

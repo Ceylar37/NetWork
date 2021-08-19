@@ -12,7 +12,7 @@ type PropsT = {
     pageSize: number,
     currentPage: number,
 
-    changeFiltersAndRequestUsers: (pageSize:number, payload: FilterT) => Promise<void>
+    changeFiltersAndRequestUsers: (pageSize:number, payload: FilterT) => void
 }
 
 const UsersSearchForm: React.FC<PropsT> = (props) => {

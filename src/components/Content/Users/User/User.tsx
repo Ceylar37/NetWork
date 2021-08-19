@@ -7,8 +7,8 @@ type PropsT = {
     user: UserT,
     followingInProgress: Array<number>,
 
-    setFollow: (id: number) => Promise<void>,
-    setUnfollow: (id: number) => Promise<void>,
+    setFollow: (id: number) => void,
+    setUnfollow: (id: number) => void,
 }
 
 const User: React.FC<PropsT> = ({user, followingInProgress, setFollow, setUnfollow}) => {
