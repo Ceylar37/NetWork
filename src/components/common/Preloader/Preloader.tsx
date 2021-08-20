@@ -3,7 +3,9 @@ import s from './Preloader.module.scss'
 
 const Preloader = () => {
     return (
-        <h1 className={s.preloaderWrapper}>Downloading</h1>
+        <div className={s.preloaderWrapper}>
+            <div className={s.loader}></div>
+        </div>
     )
 }
 

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {connect, ConnectedProps} from "react-redux";
 import {RootStateT} from "../../../types/GlobalTypes";
 import {getIsProfileFetching, getProfile, getStatus} from "../../../selectors/profile-selectors";
-import {getIsAuthorised, getMyId} from "../../../selectors/auth-selector";
+import {getMyId} from "../../../selectors/auth-selector";
 import {
     requestStatus,
     setProfileData,
@@ -28,9 +28,6 @@ type ReactRouterParams = {
 const ProfileContainer: React.FC<PropsT> = (props) => {
     const refreshProfile = () => {
         let userId: number | null = Number(props.match.params.userId) || props.me;
-        /*if (!userId) {
-            props.history.push('/login');
-        }*/
         if (userId) {
             props.setProfileData(userId);
             props.requestStatus(userId);

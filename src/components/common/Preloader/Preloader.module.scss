@@ -1,4 +1,23 @@
 .preloaderWrapper {
   display: flex;
   justify-content: center;
+  align-content: center;
+  padding: 20px;
+}
+
+.loader {
+  border: 2px dashed azure;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  animation: rotate 3s infinite linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(0.5);
+  }
 }

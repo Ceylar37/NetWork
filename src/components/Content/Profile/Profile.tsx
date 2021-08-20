@@ -6,6 +6,7 @@ import Contacts from "./Contacts/Contacts"
 import {Form} from 'react-final-form'
 import ProfileInfoForm from "./ProfileInfo/ProfileInfoForm"
 import ContactsForm from "./Contacts/ContactsForm"
+import Preloader from "../../common/Preloader/Preloader";
 
 type PropsT = {
     profile: ProfileT
@@ -76,9 +77,9 @@ const Profile: React.FC<PropsT> = (props) => {
         <div className={s.profileWrapper}>
 
             <div className={s.profileDataWrapper}>
-                <img
+                {isProfilePhotoUpdating ? <Preloader/> : <img
                     src={props.profile.photos.large ? props.profile.photos.large : "https://zohowebstatic.com/sites/default/files/ogimage/people-logo.png"}
-                    className={s.profileImg}/>
+                    className={s.profileImg}/>}
                 {isProfileDataEditModeOn
                     ? <Form onSubmit={onSubmit}
                             initialValues={{
@@ -119,7 +120,7 @@ const Profile: React.FC<PropsT> = (props) => {
                                     toggleProfileDataEditMode(true)
                                 }}>Edit Profile Info</button> : <button className='button'>Save Changes</button>}
                                 <button className='button' onClick={imitateClickOnInp}>Update Profile Photo</button>
-                                <input ref={inpRef} type={'file'}/>
+                                <input ref={inpRef} type={'file'} onChange={onProfilePhotoSelected}/>
                             </div>
                             : null}
                     </div>}
