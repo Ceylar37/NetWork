@@ -43,7 +43,6 @@ const Users: React.FC = () => {
         setCurrentPage(query.page ? query.page : 1)
         dispatch(usersActions.changeFilters({followed: query.friend === undefined ? null : query.friend, term: query.term ? query.term : ''}))
         onPageChanged()
-        debugger
     }, [])
 
     useEffect(() => {
@@ -59,7 +58,6 @@ const Users: React.FC = () => {
            pathname: '/users',
            search: stringify(newQuery)
        })
-        debugger
    }, [filter, currentPage])
 
     const setCurrentPage = (currentPage: number) => {

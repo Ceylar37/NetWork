@@ -5,7 +5,7 @@ import Login from "./Login/Login";
 import Users from "./Users/Users";
 import Profile from "./Profile/Profile";
 
-const Content = () => {
+const ContentNavigation = () => {
     return (
         <div className={s.contentWrapper}>
             <Switch>
@@ -18,9 +18,14 @@ const Content = () => {
                 <Route path={'/login'}>
                     <Login/>
                 </Route>
+                <Route path={'/settings'}>
+                    <h1 style={{color: 'white'}}>
+                        Settings
+                    </h1>
+                </Route>
             </Switch>
         </div>
     );
 };
 
-export default Content;
+export default ContentNavigation;

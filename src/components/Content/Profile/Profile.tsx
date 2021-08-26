@@ -22,7 +22,8 @@ import {
     updateStatus
 } from "../../../store/reducers/profileReducer";
 import {getMyId} from "../../../selectors/auth-selector";
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
+import {Button, Col, Row} from "antd";
 
 type ValueT = {
     aboutMe: string,
@@ -104,13 +105,17 @@ const Profile: React.FC = () => {
 
     return (
         <>
-        {!isFetching
-        ? <div className={s.profileWrapper}>
-                <div className={s.profileDataWrapper}>
-                    {isProfilePhotoUpdating ? <Preloader/> : <img
-                        src={profile.photos.large ? profile.photos.large : "https://zohowebstatic.com/sites/default/files/ogimage/people-logo.png"}
-                        className={s.profileImg}/>}
-                    {isProfileDataEditModeOn
+            {!isFetching
+                ? <Row>
+                    <Col span={5}>
+                        {isProfilePhotoUpdating
+                            ? <Preloader/>
+                            : <img
+                                src={profile.photos.large ? profile.photos.large : "https://zohowebstatic.com/sites/default/files/ogimage/people-logo.png"}
+                                className={s.profileImg}/>
+                        }
+                    </Col>
+                    <Col span={19}>{isProfileDataEditModeOn
                         ? <Form onSubmit={onSubmit}
                                 initialValues={{
                                     fullName: profile.fullName,
@@ -130,33 +135,43 @@ const Profile: React.FC = () => {
                                                 <ContactsForm submitting={submitting} contacts={profile.contacts}/>
                                             </div>
                                             <div className={s.buttons}>
-                                                <button className='button' type={'submit'} disabled={submitting}>Save Changes</button>
+                                                <button className='button' type={'submit'} disabled={submitting}>Save
+                                                    Changes
+                                                </button>
                                             </div>
                                             {errorMessages ? <span className={s.error}>{errorMessages.map(e =>
                                                 <span>{e}<br/></span>)}</span> : null}
                                         </div>
                                     </form>
                                 )}
-                        /> : <div className={s.innerProfileData}>
-                            <div className={s.profileData}>
-                                <ProfileInfo isOwner={isOwner} profile={profile} status={status}
-                                             updateStatus={updateStatusWrapper}
-                                             profileDataEditMode={isProfileDataEditModeOn}/>
-                                <Contacts contacts={profile.contacts} profileDataEditMode={isProfileDataEditModeOn}/>
-                            </div>
-                            {isOwner
-                                ? <div className={s.buttons}>
-                                    {!isProfileDataEditModeOn ? <button className='button' onClick={() => {
-                                        toggleProfileDataEditMode(true)
-                                    }}>Edit Profile Info</button> : <button className='button'>Save Changes</button>}
-                                    <button className='button' onClick={imitateClickOnInp}>Update Profile Photo</button>
-                                    <input ref={inpRef} type={'file'} onChange={onProfilePhotoSelected}/>
-                                </div>
-                                : null}
-                        </div>}
-                </div>
-            </div>
-        : <Preloader/>}
+                        /> : <Col>
+                            <Row>
+                                <Col span={12}><ProfileInfo isOwner={isOwner} profile={profile} status={status}
+                                                            updateStatus={updateStatusWrapper}
+                                                            profileDataEditMode={isProfileDataEditModeOn}/>
+                                </Col>
+                                <Col span={12}>
+                                    <Contacts contacts={profile.contacts}
+                                              profileDataEditMode={isProfileDataEditModeOn}/>
+                                </Col>
+                            </Row>
+                            <Row>
+                                {isOwner
+                                    ? <div className={s.buttons}>
+                                        {!isProfileDataEditModeOn ? <Button type={"primary"} onClick={() => {
+                                                toggleProfileDataEditMode(true)
+                                            }}>Edit Profile Info</Button> :
+                                            <Button className='button'>Save Changes</Button>}
+                                        <Button type={"primary"} onClick={imitateClickOnInp}>Update Profile Photo
+                                        </Button>
+                                        <input style={{display: 'none'}} ref={inpRef} type={'file'} onChange={onProfilePhotoSelected}/>
+                                    </div>
+                                    : null}
+                            </Row>
+                        </Col>}
+                    </Col>
+                </Row>
+                : <Preloader/>}
         </>
 
     )

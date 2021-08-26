@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ProfileT} from "../../../../types/ProfileTypes";
 import s from './ProfileInfo.module.scss'
+import {Checkbox} from "antd";
 
 type PropsT = {
     profile: ProfileT,
@@ -46,10 +47,11 @@ const ProfileInfo: React.FC<PropsT> = (props) => {
                 }
                 <span>About me: {props.profile.aboutMe}</span>
                 <span>Looking for a job : {props.profile.lookingForAJob
-                    ? <input type={'checkbox'} checked disabled/>
-                    : <input type={'checkbox'} disabled/>}
+                    ? <Checkbox checked disabled/>
+                    : <Checkbox disabled/>}
                 </span>
                 <span>Looking for a job description: {props.profile.lookingForAJobDescription}</span>
+
             </div>
         )
 }
