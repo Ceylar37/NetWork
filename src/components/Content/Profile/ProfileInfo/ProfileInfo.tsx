@@ -8,7 +8,7 @@ type PropsT = {
     profileDataEditMode: boolean,
     isOwner: boolean
 
-    updateStatus: (status: string) => Promise<void>
+    updateStatus: (status: string) => void
 }
 
 const ProfileInfo: React.FC<PropsT> = (props) => {

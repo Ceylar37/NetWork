@@ -26,7 +26,7 @@ export type UserT = {
 
 export type FilterT = {
     term: string
-    friend: null | boolean
+    followed: null | boolean
 }
 
 export type UsersActionT = ReturnType<PropertiesType<typeof usersActions>>

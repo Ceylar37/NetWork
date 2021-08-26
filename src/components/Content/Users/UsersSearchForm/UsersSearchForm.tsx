@@ -3,6 +3,7 @@ import {Field, Form} from "react-final-form";
 import s from './UsersSearchForm.module.scss'
 import {useDispatch} from "react-redux";
 import {changeFiltersAndRequestUsers} from "../../../../store/reducers/usersReducer";
+import {FilterT} from "../../../../types/UsersTypes";
 
 type ValuesT = {
     username: string
@@ -12,6 +13,7 @@ type ValuesT = {
 type PropsT = {
     pageSize: number,
     currentPage: number,
+    filter: FilterT
 }
 
 
@@ -35,12 +37,16 @@ const UsersSearchForm: React.FC<PropsT> = (props) => {
             default:
                 isFriend = null
         }
-        dispatch(changeFiltersAndRequestUsers(props.pageSize, {term: values.username, friend: isFriend}))
+        dispatch(changeFiltersAndRequestUsers(props.pageSize, {term: values.username, followed: isFriend}))
     }
 
     return (
         <div>
             <Form
+                initialValues={{
+                    username: props.filter.term,
+                    isFollowed: props.filter.followed
+                }}
                 onSubmit={onSubmit}
                 render={({ handleSubmit, form, submitting, pristine, values }) => (
                     <form className={s.form} onSubmit={handleSubmit}>

@@ -1,16 +1,16 @@
 import React from 'react';
 import {Route, Switch} from "react-router-dom";
 import s from './Content.module.scss'
-import ProfileContainer from "./Profile/ProfileContainer";
 import Login from "./Login/Login";
 import Users from "./Users/Users";
+import Profile from "./Profile/Profile";
 
 const Content = () => {
     return (
         <div className={s.contentWrapper}>
             <Switch>
                 <Route path={'/profile/:userId?'}>
-                    <ProfileContainer/>
+                    <Profile/>
                 </Route>
                 <Route path={'/users'}>
                     <Users/>

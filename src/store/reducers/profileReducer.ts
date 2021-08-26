@@ -33,6 +33,7 @@ export const profileInitialState = {
     },
     isFetching: false,
     status: '',
+    errorMessages: null as Nullable<Array<string>>
 }
 
 const profileReducer = (state = profileInitialState, action: ProfileActionT): ProfileStateT => {
@@ -66,6 +67,10 @@ const profileReducer = (state = profileInitialState, action: ProfileActionT): Pr
                     }
                 }
             }
+        case profileActionsTypes.EDIT_ERROR_MESSAGE:
+            return {
+                ...state,
+            errorMessages: action.errorMessages}
         default:
             return state
     }
@@ -76,7 +81,8 @@ export const profileActions = {
     setFetch: (isFetching: boolean) => ({type: profileActionsTypes.SET_FETCH, isFetching} as const),
     setStatus: (status: string) => ({type: profileActionsTypes.SET_STATUS, status} as const),
     refreshProfilePhoto: (image: string) => ({type: profileActionsTypes.UPDATE_PROFILE_PHOTO, image} as const),
-    setProfileInfo: (profileInfo: ProfileT) => ({type: profileActionsTypes.UPDATE_PROFILE_INFO, profileInfo} as const)
+    setProfileInfo: (profileInfo: ProfileT) => ({type: profileActionsTypes.UPDATE_PROFILE_INFO, profileInfo} as const),
+    editErrorMessage: (errorMessages: Nullable<Array<string>>) => ({type: profileActionsTypes.EDIT_ERROR_MESSAGE, errorMessages} as const)
 }
 
     export const setProfileData = (id: number): ProfileThunkResultT<Promise<void>> => async dispatch => {
@@ -105,13 +111,13 @@ export const profileActions = {
         }
     }
 
-    export const updateProfileInfo = (profileInfo: ProfileT): ProfileThunkResultT<Promise<0 | Array<string>>> => async dispatch => {
+    export const updateProfileInfo = (profileInfo: ProfileT): ProfileThunkResultT<Promise<void>> => async dispatch => {
         let response = await profileAPI.updateProfileInfo(profileInfo)
         if (!response.data.resultCode) {
             dispatch(profileActions.setProfileInfo(profileInfo))
-            return 0;
+            dispatch(profileActions.editErrorMessage(null));
         } else {
-            return response.data["messages"]
+            dispatch(profileActions.editErrorMessage(response.data.messages))
         }
     }
 

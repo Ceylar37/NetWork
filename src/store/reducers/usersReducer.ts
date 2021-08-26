@@ -2,6 +2,7 @@ import {FilterT, UsersActionsTypes, UsersActionT, UsersStateT, UsersThunkResultT
 import {Dispatch} from "redux";
 import {usersAPI} from "../../serverApi/serverApi";
 import {ResultCodeEnum} from "../../types/RequestTypes";
+import {Nullable} from "../../types/GlobalTypes";
 
 export let usersInitialState = {
     users: [] as Array<UserT>,
@@ -10,10 +11,10 @@ export let usersInitialState = {
     currentPortion: 1,
     isFetching: false,
     followingInProgress: [] as Array<number>,
-    totalCount: null as number | null,
+    totalCount: null as Nullable<number>,
     filter: {
         term: '',
-        friend: null as boolean | null
+        followed: null as Nullable<boolean>
     }
 }
 
@@ -89,7 +90,7 @@ export const usersActions = {
 export const requestUsers = (currentPage: number, pageSize: number, payload: FilterT): UsersThunkResultT<Promise<void>> =>
     async dispatch => {
         dispatch(usersActions.setFetch(true))
-        let data = await usersAPI.getUsers(currentPage, pageSize, payload.term, payload.friend)
+        let data = await usersAPI.getUsers(currentPage, pageSize, payload.term, payload.followed)
         dispatch(usersActions.setUsers(data.items))
         dispatch(usersActions.setTotalCount(data.totalCount))
         dispatch(usersActions.setFetch(false))
@@ -121,7 +122,7 @@ export const changeFiltersAndRequestUsers = (pageSize:number, payload: FilterT):
         dispatch(usersActions.setFetch(true))
         dispatch(usersActions.changeFilters(payload))
         dispatch(usersActions.setCurrentPage(1))
-        let data = await usersAPI.getUsers(1, pageSize, payload.term, payload.friend)
+        let data = await usersAPI.getUsers(1, pageSize, payload.term, payload.followed)
         dispatch(usersActions.setUsers(data.items))
         dispatch(usersActions.setTotalCount(data.totalCount))
         dispatch(usersActions.setFetch(false))

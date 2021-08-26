@@ -1,14 +1,10 @@
-import React, {useState} from "react"
-import { Form, Field } from 'react-final-form'
-import {connect, ConnectedProps, useDispatch, useSelector} from "react-redux"
+import React from "react"
+import {Field, Form} from 'react-final-form'
+import {useDispatch, useSelector} from "react-redux"
 import {Redirect} from 'react-router'
 import {login} from "../../../store/reducers/authReducer";
 import {getCaptchaUrl, getErrorMessage, getIsAuthorised} from "../../../selectors/auth-selector";
 import s from './Login.module.scss'
-
-
-
-type PropsFromRedux = ConnectedProps<typeof connector>
 
 
 type Errors = {
@@ -23,7 +19,7 @@ type FormData = {
     captcha: string | null
 }
 
-const Login: React.FC<PropsFromRedux> = () => {
+const Login: React.FC = () => {
 
     const dispatch = useDispatch()
 
@@ -87,7 +83,4 @@ const Login: React.FC<PropsFromRedux> = () => {
     />
 }
 
-
-const connector = connect(null, {login})
-
-export default connector(Login)
+export default Login

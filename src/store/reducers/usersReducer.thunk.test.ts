@@ -73,7 +73,7 @@ test('setUnfollow Test', async () => {
 test('requestUsers Test', async () => {
     const thunk = requestUsers(1, 4, {
         term: '',
-        friend: null
+        followed: null
     })
 
     usersAPIMock.getUsers.mockResolvedValue(result)
@@ -90,7 +90,7 @@ test('requestUsers Test', async () => {
 test('changeFiltersAndRequestUsers Test', async () => {
     const thunk = changeFiltersAndRequestUsers(4, {
         term: '',
-        friend: null
+        followed: null
     })
     usersAPIMock.getUsers.mockResolvedValue(result)
 

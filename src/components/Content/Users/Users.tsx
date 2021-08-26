@@ -16,11 +16,14 @@ import {
 } from "../../../selectors/users-selectors";
 import {requestUsers, setFollow, setUnfollow, usersActions} from "../../../store/reducers/usersReducer"
 import Preloader from "../../common/Preloader/Preloader";
+import { useHistory } from 'react-router-dom';
+import {useQueryParams, StringParam, BooleanParam, NumberParam} from "use-query-params";
+import {stringify} from "querystring";
 
 const Users: React.FC = () => {
 
     const dispatch = useDispatch()
-
+    const history = useHistory()
     const totalCount = useSelector(getTotalCount)
     const pageSize = useSelector(getPageSize)
     const currentPortion = useSelector(getCurrentPortion)
@@ -30,9 +33,34 @@ const Users: React.FC = () => {
     const filter = useSelector(getFilter)
     const isFetching = useSelector(getIsUsersFetching)
 
+    const [query] = useQueryParams({
+        term: StringParam,
+        friend: BooleanParam,
+        page: NumberParam
+    })
+
     useEffect(() => {
+        setCurrentPage(query.page ? query.page : 1)
+        dispatch(usersActions.changeFilters({followed: query.friend === undefined ? null : query.friend, term: query.term ? query.term : ''}))
         onPageChanged()
-    }, [currentPage])
+        debugger
+    }, [])
+
+    useEffect(() => {
+        const newQuery: {
+            term?: string,
+            friend?: boolean,
+            page?: number
+        } = {}
+        if (filter.term !== '') newQuery.term = filter.term
+        if (typeof filter.followed === 'boolean') newQuery.friend = filter.followed
+        if (currentPage !== 1) newQuery.page = currentPage
+       history.push({
+           pathname: '/users',
+           search: stringify(newQuery)
+       })
+        debugger
+   }, [filter, currentPage])
 
     const setCurrentPage = (currentPage: number) => {
         dispatch(usersActions.setCurrentPage(currentPage))
@@ -67,7 +95,7 @@ const Users: React.FC = () => {
                     changeCurrentPortion={changeCurrentPortion}
                     totalCount={totalCount}
                 />
-                <UsersSearchForm currentPage={currentPage} pageSize={pageSize}/>
+                <UsersSearchForm filter={filter} currentPage={currentPage} pageSize={pageSize}/>
             </div>
             <div className={s.usersList}>
                 {

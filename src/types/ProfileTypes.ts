@@ -2,11 +2,12 @@ import {profileActions, profileInitialState} from "../store/reducers/profileRedu
 import {PropertiesType, ThunkResultT} from "./GlobalTypes";
 
 export enum profileActionsTypes {
-    SET_USER_PROFILE = 'profile/SET-USER-PROFILE',
-    SET_FETCH = 'profile/SET-FETCH',
-    SET_STATUS = 'profile/SET-STATUS',
-    UPDATE_PROFILE_PHOTO = 'profile/UPDATE-PROFILE-PHOTO',
-    UPDATE_PROFILE_INFO = 'profile/UPDATE-PROFILE-INFO'
+    SET_USER_PROFILE = 'profile/SET_USER_PROFILE',
+    SET_FETCH = 'profile/SET_FETCH',
+    SET_STATUS = 'profile/SET_STATUS',
+    UPDATE_PROFILE_PHOTO = 'profile/UPDATE_PROFILE_PHOTO',
+    UPDATE_PROFILE_INFO = 'profile/UPDATE_PROFILE_INFO',
+    EDIT_ERROR_MESSAGE = 'profile/EDIT_ERROR_MESSAGE'
 }
 
 export type ProfileStateT = typeof profileInitialState

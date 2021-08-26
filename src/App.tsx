@@ -2,25 +2,24 @@ import React, {useEffect} from 'react'
 import Content from "./components/Content/Content"
 import Footer from "./components/Footer/Footer"
 import './App.scss'
-import {connect, ConnectedProps} from "react-redux";
-import {RootStateT} from "./types/GlobalTypes";
+import {useDispatch, useSelector} from "react-redux";
 import {getInitialize} from "./selectors/auth-selector";
 import {initializeApp} from "./store/reducers/appReducer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import { useHistory } from 'react-router-dom';
 
-type PropsFromRedux = ConnectedProps<typeof connector>
+const App: React.FC = () => {
 
-type OwnPropsT = {}
-
-type PropsT = OwnPropsT & PropsFromRedux
-
-const App: React.FC<PropsT> = (props) => {
+    const initialized = useSelector(getInitialize)
+    const dispatch = useDispatch()
+    const history = useHistory()
+    if (history.location.pathname === '/') history.push('profile')
 
     useEffect(() => {
-        props.initializeApp()
+        dispatch(initializeApp())
     }, [])
 
-    if (!props.initialized) {
+    if (!initialized) {
         return <></>
     }
 
@@ -33,8 +32,4 @@ const App: React.FC<PropsT> = (props) => {
     )
 }
 
-const connector = connect((state: RootStateT) => ({
-    initialized: getInitialize(state),
-}), {initializeApp})
-
-export default connector(App)
+export default App

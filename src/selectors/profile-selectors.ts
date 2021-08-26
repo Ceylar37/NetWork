@@ -5,7 +5,7 @@ export const getProfile = (state: RootStateT): ProfileT => {
     return state.profilePage.profile
 }
 
-export const getIsProfileFetching = (state: RootStateT): boolean => {
+export const getProfileIsFetching = (state: RootStateT): boolean => {
     return state.profilePage.isFetching
 }
 
@@ -15,4 +15,8 @@ export const getStatus = (state: RootStateT):string => {
 
 export const getProfileImg = (state: RootStateT): Nullable<string> => {
     return state.auth.photo
+}
+
+export const getProfileErrorMessages = (state: RootStateT): Nullable<Array<string>> => {
+    return state.profilePage.errorMessages
 }

@@ -9,7 +9,7 @@ type PropsT = {
     profileDataEditMode: boolean
     submitting: boolean
 
-    updateStatus: (status: string) => Promise<void>
+    updateStatus: (status: string) =>void
 }
 
 const ProfileInfoForm: React.FC<PropsT> = (props) => {
