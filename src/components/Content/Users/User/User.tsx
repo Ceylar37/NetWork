@@ -2,6 +2,8 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 import {UserT} from "../../../../types/UsersTypes";
 import s from './User.module.scss'
+import MyAvatar from "../../../common/Avatar/MyAvatar";
+import {Button} from "antd";
 
 type PropsT = {
     user: UserT,
@@ -15,15 +17,14 @@ const User: React.FC<PropsT> = ({user, followingInProgress, setFollow, setUnfoll
 
     return <div className={s.userWrapper}>
         <NavLink to={'/profile/' + user.id}>
-            <img className={s.image}
-                 src={user.photos?.large !== null ? user.photos?.large : "https://zohowebstatic.com/sites/default/files/ogimage/people-logo.png"}/>
+            <MyAvatar height={'100%'}/>
         </NavLink>
         <div>{user.name}
-            {user.followed ? <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
+            {user.followed ? <Button type={'primary'} disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
                 setUnfollow(user.id);
-            }}>Follow</button> : <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
+            }}>Followed</Button> : <Button type={"primary"} disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
                 setFollow(user.id);
-            }}>Unfollow</button>}
+            }}>Unfollowed</Button>}
         </div>
     </div>
 }

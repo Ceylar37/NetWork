@@ -1,17 +1,16 @@
 import {FilterT, UsersActionsTypes, UsersActionT, UsersStateT, UsersThunkResultT, UserT} from "../../types/UsersTypes";
 import {Dispatch} from "redux";
-import {usersAPI} from "../../serverApi/serverApi";
 import {ResultCodeEnum} from "../../types/RequestTypes";
 import {Nullable} from "../../types/GlobalTypes";
+import {usersAPI} from "../../serverApi/users";
 
 export let usersInitialState = {
     users: [] as Array<UserT>,
     pageSize: 10,
     currentPage: 1,
-    currentPortion: 1,
     isFetching: false,
     followingInProgress: [] as Array<number>,
-    totalCount: null as Nullable<number>,
+    totalCount: 1 as number,
     filter: {
         term: '',
         followed: null as Nullable<boolean>
@@ -23,35 +22,30 @@ const usersReducer = (state = usersInitialState, action: UsersActionT): UsersSta
         case UsersActionsTypes.FOLLOW:
             return {
                 ...state,
-                users: updateFollowedUsers(state.users, action.userId, true)
+                users: updateFollowedUsers(state.users, action.payload, true)
             }
         case UsersActionsTypes.UNFOLLOW:
             return {
                 ...state,
-                users: updateFollowedUsers(state.users, action.userId, false)
+                users: updateFollowedUsers(state.users, action.payload, false)
             }
         case UsersActionsTypes.SET_USERS:
-            return {...state, users: action.users}
+            return {...state, users: action.payload}
         case UsersActionsTypes.SET_CURRENT_PAGE:
             return {
                 ...state,
-                currentPage: action.currentPage,
+                currentPage: action.payload,
             }
         case UsersActionsTypes.SET_TOTAL_COUNT:
-            return {...state, totalCount: action.totalCount}
+            return {...state, totalCount: action.payload}
         case UsersActionsTypes.SET_FETCH:
-            return {...state, isFetching: action.isFetching}
+            return {...state, isFetching: action.payload}
         case UsersActionsTypes.TOGGLE_IS_FOLLOWING_PROGRESS:
             return {
                 ...state,
-                followingInProgress: action.isFetching
-                    ? [...state.followingInProgress, action.id]
-                    : state.followingInProgress.filter(id => id !== action.id)
-            }
-        case UsersActionsTypes.CHANGE_CURRENT_PORTION:
-            return {
-                ...state,
-                currentPortion: state.currentPortion + action.change,
+                followingInProgress: action.payload.isFetching
+                    ? [...state.followingInProgress, action.payload.id]
+                    : state.followingInProgress.filter(id => id !== action.payload.id)
             }
         case UsersActionsTypes.CHANGE_FILTER:
             return {
@@ -72,18 +66,19 @@ const updateFollowedUsers = (users: Array<UserT>, userId: number, isFollowing: b
 })
 
 export const usersActions = {
-    follow: (userId: number) => ({type: UsersActionsTypes.FOLLOW, userId: userId} as const),
-    unfollow: (userId: number) => ({type: UsersActionsTypes.UNFOLLOW, userId: userId} as const),
-    setUsers: (users: Array<UserT>) => ({type: UsersActionsTypes.SET_USERS, users} as const),
-    setCurrentPage: (currentPage: number) => ({type: UsersActionsTypes.SET_CURRENT_PAGE, currentPage} as const),
-    setTotalCount: (totalCount: number) => ({type: UsersActionsTypes.SET_TOTAL_COUNT, totalCount} as const),
-    setFetch: (isFetching: boolean) => ({type: UsersActionsTypes.SET_FETCH, isFetching} as const),
+    follow: (userId: number) => ({type: UsersActionsTypes.FOLLOW, payload: userId} as const),
+    unfollow: (userId: number) => ({type: UsersActionsTypes.UNFOLLOW, payload: userId} as const),
+    setUsers: (users: Array<UserT>) => ({type: UsersActionsTypes.SET_USERS, payload: users} as const),
+    setCurrentPage: (currentPage: number) => ({type: UsersActionsTypes.SET_CURRENT_PAGE, payload: currentPage} as const),
+    setTotalCount: (totalCount: number) => ({type: UsersActionsTypes.SET_TOTAL_COUNT, payload: totalCount} as const),
+    setFetch: (isFetching: boolean) => ({type: UsersActionsTypes.SET_FETCH, payload: isFetching} as const),
     toggleFollowingProgress: (isFetching: boolean, id: number) => ({
         type: UsersActionsTypes.TOGGLE_IS_FOLLOWING_PROGRESS,
-        isFetching,
-        id
+        payload: {
+            isFetching,
+            id
+        }
     } as const),
-    changeCurrentPortion: (change: number) => ({type: UsersActionsTypes.CHANGE_CURRENT_PORTION, change} as const),
     changeFilters: (payload: FilterT) => ({type: UsersActionsTypes.CHANGE_FILTER, payload} as const)
 }
 

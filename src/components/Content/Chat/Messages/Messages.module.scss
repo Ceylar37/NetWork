@@ -1,0 +1,39 @@
+.messagesWrapper {
+  overflow: auto;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageWrapper {
+  display: flex;
+  width: 90%;
+  margin-bottom: 5px;
+}
+
+.myMessageWrapper {
+  align-self: center;
+  display: flex;
+  justify-content: flex-end;
+  span {
+    border-top-right-radius: 0;
+  }
+}
+
+.myMessageWrapper::after {
+  content: '';
+  border: 5px solid transparent;
+  border-left: 0px solid #b6b8bb;
+  border-top: 5px solid #b6b8bb;
+}
+
+.othersMessageText {
+  margin-left: 5px;
+}
+
+.messageText {
+  padding: 3px;
+  background-color: #b6b8bb;
+  border-radius: 5px;
+  width: max-content;
+}

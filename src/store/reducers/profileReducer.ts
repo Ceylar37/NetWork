@@ -6,8 +6,8 @@ import {
     ProfileT,
     ProfileThunkResultT
 } from "../../types/ProfileTypes";
-import {profileAPI} from "../../serverApi/serverApi";
 import {ResultCodeEnum} from "../../types/RequestTypes";
+import {profileAPI} from "../../serverApi/profile";
 
 export const profileInitialState = {
     profile: {
@@ -39,50 +39,50 @@ export const profileInitialState = {
 const profileReducer = (state = profileInitialState, action: ProfileActionT): ProfileStateT => {
     switch (action.type) {
         case profileActionsTypes.SET_USER_PROFILE:
-            return {...state, profile: action.profile}
+            return {...state, profile: action.payload}
         case profileActionsTypes.SET_FETCH:
-            return {...state, isFetching: action.isFetching}
+            return {...state, isFetching: action.payload}
         case profileActionsTypes.SET_STATUS:
-            return {...state, status: action.status}
+            return {...state, status: action.payload}
         case profileActionsTypes.UPDATE_PROFILE_PHOTO:
             return {
                 ...state,
-                profile: {...state.profile, photos: {small: state.profile.photos.small, large: action.image}}
+                profile: {...state.profile, photos: {small: state.profile.photos.small, large: action.payload}}
             }
         case profileActionsTypes.UPDATE_PROFILE_INFO:
             return {
                 ...state, profile: {
-                    ...state.profile, lookingForAJob: action.profileInfo.lookingForAJob,
-                    lookingForAJobDescription: action.profileInfo.lookingForAJobDescription,
-                    aboutMe: action.profileInfo.aboutMe,
+                    ...state.profile, lookingForAJob: action.payload.lookingForAJob,
+                    lookingForAJobDescription: action.payload.lookingForAJobDescription,
+                    aboutMe: action.payload.aboutMe,
                     contacts: {
-                        ...state.profile.contacts, github: action.profileInfo.contacts.github,
-                        vk: action.profileInfo.contacts.vk,
-                        facebook: action.profileInfo.contacts.facebook,
-                        instagram: action.profileInfo.contacts.instagram,
-                        twitter: action.profileInfo.contacts.twitter,
-                        website: action.profileInfo.contacts.website,
-                        youtube: action.profileInfo.contacts.youtube,
-                        mainLink: action.profileInfo.contacts.mainLink
+                        ...state.profile.contacts, github: action.payload.contacts.github,
+                        vk: action.payload.contacts.vk,
+                        facebook: action.payload.contacts.facebook,
+                        instagram: action.payload.contacts.instagram,
+                        twitter: action.payload.contacts.twitter,
+                        website: action.payload.contacts.website,
+                        youtube: action.payload.contacts.youtube,
+                        mainLink: action.payload.contacts.mainLink
                     }
                 }
             }
         case profileActionsTypes.EDIT_ERROR_MESSAGE:
             return {
                 ...state,
-            errorMessages: action.errorMessages}
+            errorMessages: action.payload}
         default:
             return state
     }
 }
 
 export const profileActions = {
-    newUserProfile: (profile: ProfileT) => ({type: profileActionsTypes.SET_USER_PROFILE, profile} as const),
-    setFetch: (isFetching: boolean) => ({type: profileActionsTypes.SET_FETCH, isFetching} as const),
-    setStatus: (status: string) => ({type: profileActionsTypes.SET_STATUS, status} as const),
-    refreshProfilePhoto: (image: string) => ({type: profileActionsTypes.UPDATE_PROFILE_PHOTO, image} as const),
-    setProfileInfo: (profileInfo: ProfileT) => ({type: profileActionsTypes.UPDATE_PROFILE_INFO, profileInfo} as const),
-    editErrorMessage: (errorMessages: Nullable<Array<string>>) => ({type: profileActionsTypes.EDIT_ERROR_MESSAGE, errorMessages} as const)
+    newUserProfile: (profile: ProfileT) => ({type: profileActionsTypes.SET_USER_PROFILE, payload: profile} as const),
+    setFetch: (isFetching: boolean) => ({type: profileActionsTypes.SET_FETCH, payload: isFetching} as const),
+    setStatus: (status: string) => ({type: profileActionsTypes.SET_STATUS, payload: status} as const),
+    refreshProfilePhoto: (image: string) => ({type: profileActionsTypes.UPDATE_PROFILE_PHOTO, payload: image} as const),
+    setProfileInfo: (profileInfo: ProfileT) => ({type: profileActionsTypes.UPDATE_PROFILE_INFO, payload: profileInfo} as const),
+    editErrorMessage: (errorMessages: Nullable<Array<string>>) => ({type: profileActionsTypes.EDIT_ERROR_MESSAGE, payload: errorMessages} as const)
 }
 
     export const setProfileData = (id: number): ProfileThunkResultT<Promise<void>> => async dispatch => {
@@ -111,10 +111,10 @@ export const profileActions = {
         }
     }
 
-    export const updateProfileInfo = (profileInfo: ProfileT): ProfileThunkResultT<Promise<void>> => async dispatch => {
-        let response = await profileAPI.updateProfileInfo(profileInfo)
+    export const updateProfileInfo = (payload: ProfileT): ProfileThunkResultT<Promise<void>> => async dispatch => {
+        let response = await profileAPI.updateProfileInfo(payload)
         if (!response.data.resultCode) {
-            dispatch(profileActions.setProfileInfo(profileInfo))
+            dispatch(profileActions.setProfileInfo(payload))
             dispatch(profileActions.editErrorMessage(null));
         } else {
             dispatch(profileActions.editErrorMessage(response.data.messages))

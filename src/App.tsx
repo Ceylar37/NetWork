@@ -2,11 +2,12 @@ import React, {useEffect} from 'react'
 import './App.scss'
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
-import {getInitialize} from "./selectors/auth-selector";
+import {getInitialize, getIsAuthorised} from "./selectors/auth-selector";
 import {initializeApp} from "./store/reducers/appReducer";
-import {Link, NavLink, useHistory} from 'react-router-dom';
-import {Layout, Menu, Breadcrumb} from 'antd';
+import {Link, useHistory} from 'react-router-dom';
+import {Breadcrumb, Button, Layout, Menu} from 'antd';
 import ContentNavigation from "./components/Content/ContentNavigation";
+import {logout} from "./store/reducers/authReducer";
 
 const {Header, Footer, Content} = Layout;
 
@@ -14,9 +15,11 @@ const {Header, Footer, Content} = Layout;
 const App: React.FC = () => {
 
     const initialized = useSelector(getInitialize)
+    const isAuth = useSelector(getIsAuthorised)
     const dispatch = useDispatch()
     const history = useHistory()
     if (history.location.pathname === '/') history.push('profile')
+
     useEffect(() => {
         dispatch(initializeApp())
     }, [])
@@ -28,18 +31,23 @@ const App: React.FC = () => {
     return (
         <Layout className="layout">
             <Header>
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{height: '100%'}}>
-                    <Menu.Item key={1}>
+                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[history.location.pathname]} style={{height: '100%'}}>
+                    <Menu.Item key={'/profile'}>
                         <Link to={'/profile'}>
                             Profile
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key={2}>
+                    <Menu.Item key={'/users'}>
                         <Link to={'/users'}>
                             Users
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key={3}>
+                    <Menu.Item key={'/chat'}>
+                        <Link to={'/chat'}>
+                            Chat
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key={'/settings'}>
                         <Link to={'/settings'}>
                             Settings
                         </Link>
@@ -56,7 +64,12 @@ const App: React.FC = () => {
                     <ContentNavigation/>
                 </div>
             </Content>
-            <Footer style={{textAlign: 'center'}}>Social Network</Footer>
+            <Footer style={{backgroundColor: '#001529'}}>
+                {isAuth ? <div style={{display: 'flex', justifyContent: 'flex-end'}}><Button onClick={() => {
+                        dispatch(logout())
+                    }}>Logout</Button></div>
+                    : <div style={{display: "flex", justifyContent: "center"}}><span>Social Network</span></div>}
+            </Footer>
         </Layout>
     )
 }

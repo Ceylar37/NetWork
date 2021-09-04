@@ -9,7 +9,7 @@ export const getPageSize = (state: RootStateT): number => {
     return state.usersPage.pageSize
 }
 
-export const getTotalCount = (state: RootStateT): number | null => {
+export const getTotalCount = (state: RootStateT): number => {
     return state.usersPage.totalCount
 }
 
@@ -23,10 +23,6 @@ export const getIsUsersFetching = (state: RootStateT): boolean => {
 
 export const getFollowingInProgress = (state: RootStateT): Array<number> => {
     return state.usersPage.followingInProgress
-}
-
-export const getCurrentPortion = (state: RootStateT): number => {
-    return state.usersPage.currentPortion
 }
 
 export const getFilter = (state: RootStateT): FilterT => {

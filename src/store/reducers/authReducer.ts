@@ -1,17 +1,19 @@
 import {AuthActionsType, AuthActionT, AuthStateT, AuthThunkResultT} from "../../types/AuthTypes";
-import {authAPI, profileAPI, securityAPI} from "../../serverApi/serverApi";
 import {ResultCodeEnum} from "../../types/RequestTypes";
 import {Nullable} from "../../types/GlobalTypes";
+import {authAPI} from "../../serverApi/auth";
+import {profileAPI} from "../../serverApi/profile";
+import {securityAPI} from "../../serverApi/security";
 
 export let authInitialState = {
-    id: null as number | null,
-    email: null as string | null,
-    login: null as string | null,
+    id: null as Nullable<number>,
+    email: null as Nullable<string>,
+    login: null as Nullable<string>,
     isFetching: false,
     isAuthorised: false,
-    captchaUrl: null as string | null,
-    photo: null as string | null,
-    errorMessage: null as string | null
+    captchaUrl: null as Nullable<string>,
+    photo: null as Nullable<string>,
+    errorMessage: null as Nullable<string>
 }
 
 const authReducer = (state = authInitialState, action: AuthActionT): AuthStateT => {
@@ -24,12 +26,12 @@ const authReducer = (state = authInitialState, action: AuthActionT): AuthStateT 
         case AuthActionsType.SET_CAPTCHA_URL:
             return {
                 ...state,
-                captchaUrl: action.url,
+                captchaUrl: action.payload,
             }
         case AuthActionsType.SET_ERROR:
             return {
                 ...state,
-                errorMessage: action.errorMessage
+                errorMessage: action.payload
             }
         default:
             return state
@@ -40,8 +42,8 @@ export const authActions = {
     setUserData: (id: Nullable<number>, email: Nullable<string>, login: Nullable<string>, photo: Nullable<string>,  isAuthorised: boolean) => ({
         type: AuthActionsType.SET_USER_DATA, payload: {id, email, login, photo, isAuthorised}
     } as const),
-    setCaptchaUrl: (url: string) => ({type: AuthActionsType.SET_CAPTCHA_URL, url} as const),
-    setErrors: (errorMessage: Nullable<string>) => ({type: AuthActionsType.SET_ERROR, errorMessage} as const)
+    setCaptchaUrl: (url: string) => ({type: AuthActionsType.SET_CAPTCHA_URL, payload: url} as const),
+    setErrors: (errorMessage: Nullable<string>) => ({type: AuthActionsType.SET_ERROR, payload: errorMessage} as const)
 }
 
 export const auth = (): AuthThunkResultT<Promise<void>> => async dispatch => {

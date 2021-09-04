@@ -24,6 +24,8 @@ import {
 import {getMyId} from "../../../selectors/auth-selector";
 import {useHistory} from 'react-router-dom'
 import {Button, Col, Row} from "antd";
+import MyAvatar from "../../common/Avatar/MyAvatar";
+import {withAuthRedirect} from "../../../hoc/WithAuthRedirect";
 
 type ValueT = {
     aboutMe: string,
@@ -67,7 +69,7 @@ const Profile: React.FC = () => {
     }
 
     const refreshProfile = () => {
-        let userId: number | null = Number(history.location.pathname) || me;
+        const userId: number | null = Number(history.location.pathname.substr(9)) || me;
         if (userId) {
             dispatch(setProfileData(userId))
             dispatch(requestStatus(userId))
@@ -110,10 +112,7 @@ const Profile: React.FC = () => {
                     <Col span={5}>
                         {isProfilePhotoUpdating
                             ? <Preloader/>
-                            : <img
-                                src={profile.photos.large ? profile.photos.large : "https://zohowebstatic.com/sites/default/files/ogimage/people-logo.png"}
-                                className={s.profileImg}/>
-                        }
+                            : <MyAvatar src={profile.photos.small} width={'100%'}/>}
                     </Col>
                     <Col span={19}>{isProfileDataEditModeOn
                         ? <Form onSubmit={onSubmit}
@@ -126,22 +125,26 @@ const Profile: React.FC = () => {
                                 }}
                                 render={({handleSubmit, form, submitting, pristine, values}) => (
                                     <form onSubmit={handleSubmit}>
-                                        <div className={s.innerProfileData}>
-                                            <div className={s.profileData}>
-                                                <ProfileInfoForm submitting={submitting} profile={profile}
-                                                                 status={status}
-                                                                 updateStatus={updateStatusWrapper}
-                                                                 profileDataEditMode={isProfileDataEditModeOn}/>
-                                                <ContactsForm submitting={submitting} contacts={profile.contacts}/>
-                                            </div>
-                                            <div className={s.buttons}>
+                                        <Col>
+                                            <Row>
+                                                <Col>
+                                                    <ProfileInfoForm submitting={submitting} profile={profile}
+                                                                     status={status}
+                                                                     updateStatus={updateStatusWrapper}
+                                                                     profileDataEditMode={isProfileDataEditModeOn}/>
+                                                </Col>
+                                                <Col>
+                                                    <ContactsForm submitting={submitting} contacts={profile.contacts}/>
+                                                </Col>
+                                            </Row>
+                                            <Row className={s.buttons}>
                                                 <button className='button' type={'submit'} disabled={submitting}>Save
                                                     Changes
                                                 </button>
-                                            </div>
+                                            </Row>
                                             {errorMessages ? <span className={s.error}>{errorMessages.map(e =>
                                                 <span>{e}<br/></span>)}</span> : null}
-                                        </div>
+                                        </Col>
                                     </form>
                                 )}
                         /> : <Col>
@@ -164,7 +167,8 @@ const Profile: React.FC = () => {
                                             <Button className='button'>Save Changes</Button>}
                                         <Button type={"primary"} onClick={imitateClickOnInp}>Update Profile Photo
                                         </Button>
-                                        <input style={{display: 'none'}} ref={inpRef} type={'file'} onChange={onProfilePhotoSelected}/>
+                                        <input style={{display: 'none'}} ref={inpRef} type={'file'}
+                                               onChange={onProfilePhotoSelected}/>
                                     </div>
                                     : null}
                             </Row>
@@ -177,4 +181,4 @@ const Profile: React.FC = () => {
     )
 }
 
-export default Profile
+export default withAuthRedirect(Profile)

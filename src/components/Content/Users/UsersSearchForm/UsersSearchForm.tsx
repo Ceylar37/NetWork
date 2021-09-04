@@ -57,7 +57,7 @@ const UsersSearchForm: React.FC<PropsT> = (props) => {
                                 type="text"
                                 placeholder="Enter username here"
                             />
-                            <Field style={{backgroundColor: '#333333'}} name="isFollowed" component="select">
+                            <Field name="isFollowed" component="select">
                                 <option value='null'>All</option>
                                 <option value='true'>Followed</option>
                                 <option value='false'>Unfollowed</option>
