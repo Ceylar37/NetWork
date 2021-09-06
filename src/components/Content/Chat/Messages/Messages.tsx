@@ -16,7 +16,7 @@ const Messages:React.FC = () => {
         if (isAutoScroll) {
             scrollableDiv.current?.scrollIntoView()
         }
-    }, [messages])
+    }, [messages, isAutoScroll])
 
     const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
         const curElement = e.currentTarget

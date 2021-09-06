@@ -9,13 +9,6 @@ export enum AuthActionsType {
 
 export type AuthStateT = typeof authInitialState
 
-type SetUserDataPayloadT = {
-    id: number | null,
-    email: string | null,
-    login: string | null,
-    isAuthorised: boolean
-}
-
 export type AuthActionT = ReturnType<PropertiesType<typeof authActions>>
 
 export type AuthThunkResultT<R> = ThunkResultT<R, AuthActionT>

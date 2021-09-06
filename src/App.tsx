@@ -22,7 +22,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         dispatch(initializeApp())
-    }, [])
+    }, [dispatch])
 
     if (!initialized) {
         return <></>

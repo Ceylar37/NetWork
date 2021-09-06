@@ -12,7 +12,7 @@ const Chat = () => {
         return () => {
             dispatch(closeWebSocketApi())
         }
-    }, [])
+    }, [dispatch])
 
     return <div>
         <Messages/>

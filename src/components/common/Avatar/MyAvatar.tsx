@@ -20,8 +20,8 @@ const MyAvatar: React.FC<PropsT> = ({src, height, width, borderRadius}) => {
     if (width) styles.width = width
     if (borderRadius) styles.borderRadius = borderRadius
 
-    if (!src) return <img className={s.avatarImg} style={styles} src={defaultProfileImageSrc}/>
-    return <img className={s.avatarImg} src={src} style={styles}/>
+    if (!src) return <img className={s.avatarImg} style={styles} src={defaultProfileImageSrc} alt={'Avatar'}/>
+    return <img className={s.avatarImg} src={src} style={styles} alt={'Avatar'}/>
 }
 
 export default MyAvatar

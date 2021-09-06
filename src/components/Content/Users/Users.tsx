@@ -57,7 +57,7 @@ const Users: React.FC = () => {
            pathname: '/users',
            search: stringify(newQuery)
        })
-   }, [filter, currentPage])
+   }, [filter, currentPage, history])
 
     const onPageChanged = (page: number) => {
         dispatch(usersActions.setCurrentPage(page))

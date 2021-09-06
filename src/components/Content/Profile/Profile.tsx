@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {ContactsT, ProfileT} from "../../../types/ProfileTypes"
 import s from './Profile.module.scss'
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
@@ -68,17 +68,17 @@ const Profile: React.FC = () => {
         dispatch(updateStatus(status))
     }
 
-    const refreshProfile = () => {
+    const refreshProfile = useCallback(() => {
         const userId: number | null = Number(history.location.pathname.substr(9)) || me;
         if (userId) {
             dispatch(setProfileData(userId))
             dispatch(requestStatus(userId))
         }
-    }
+    }, [history.location.pathname, me, dispatch])
 
     useEffect(() => {
         refreshProfile();
-    }, [history.location.pathname])
+    }, [history.location.pathname, refreshProfile])
 
     const onSubmit = async (value: ValueT) => {
         let payload: ProfileT = {
@@ -143,7 +143,7 @@ const Profile: React.FC = () => {
                                                 </button>
                                             </Row>
                                             {errorMessages ? <span className={s.error}>{errorMessages.map(e =>
-                                                <span>{e}<br/></span>)}</span> : null}
+                                                <span key={e}>{e}<br/></span>)}</span> : null}
                                         </Col>
                                     </form>
                                 )}

@@ -18,7 +18,7 @@ const Contacts: React.FC<PropsT> = (props) => {
             }) ? <span className={s.label}>Contacts: </span> : null}
             {contactsKeys.map((key: string) => {
                 if (props.contacts[key as keyof ContactsT]) {
-                    return <span>{key} : {props.contacts[key as keyof ContactsT]}</span>
+                    return <span key={key}>{key} : {props.contacts[key as keyof ContactsT]}</span>
                 } else {
                     return null
                 }

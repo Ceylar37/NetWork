@@ -1,6 +1,6 @@
 import React from "react";
-import { Redirect } from 'react-router'
-import {connect, ConnectedProps} from "react-redux";
+import {Redirect} from 'react-router'
+import {connect} from "react-redux";
 import {RootStateT} from "../types/GlobalTypes";
 
 type MapStatePropsT = {

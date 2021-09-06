@@ -69,7 +69,7 @@ const Login: React.FC = () => {
                              remember me<Field component={'input'} name={'rememberMe'} type={'checkbox'}/>
                          </div>
                          {captchaUrl && <div>
-                             <img src={captchaUrl}/><br/>
+                             <img src={captchaUrl} alt={'Captcha'}/><br/>
                              Please, enter the characters from the picture
                              <Field component={"input"} name={'captcha'} />
                          </div>}

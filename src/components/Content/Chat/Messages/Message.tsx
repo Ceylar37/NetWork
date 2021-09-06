@@ -1,4 +1,4 @@
-import React, {LegacyRef} from 'react'
+import React from 'react'
 import {MessageApiT} from "../../../../types/ChatTypes"
 import s from './Messages.module.scss'
 import MyAvatar from "../../../common/Avatar/MyAvatar";
