@@ -51,7 +51,6 @@ const ProfileInfo: React.FC<PropsT> = (props) => {
                     : <Checkbox disabled/>}
                 </span>
                 <span>Looking for a job description: {props.profile.lookingForAJobDescription}</span>
-
             </div>
         )
 }

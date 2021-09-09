@@ -49,7 +49,6 @@ const Profile: React.FC = () => {
     const [isProfileDataEditModeOn, toggleProfileDataEditMode] = useState<boolean>(false)
     const inpRef = useRef<HTMLInputElement>(null)
 
-
     const imitateClickOnInp = () => {
         if (inpRef.current) {
             inpRef.current.click()
@@ -127,13 +126,13 @@ const Profile: React.FC = () => {
                                     <form onSubmit={handleSubmit}>
                                         <Col>
                                             <Row>
-                                                <Col>
+                                                <Col span={12}>
                                                     <ProfileInfoForm submitting={submitting} profile={profile}
                                                                      status={status}
                                                                      updateStatus={updateStatusWrapper}
                                                                      profileDataEditMode={isProfileDataEditModeOn}/>
                                                 </Col>
-                                                <Col>
+                                                <Col span={12}>
                                                     <ContactsForm submitting={submitting} contacts={profile.contacts}/>
                                                 </Col>
                                             </Row>
@@ -158,7 +157,7 @@ const Profile: React.FC = () => {
                                               profileDataEditMode={isProfileDataEditModeOn}/>
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row justify={"end"}>
                                 {isOwner
                                     ? <div className={s.buttons}>
                                         {!isProfileDataEditModeOn ? <Button type={"primary"} onClick={() => {

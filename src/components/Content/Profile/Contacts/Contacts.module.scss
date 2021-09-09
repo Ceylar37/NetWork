@@ -1,8 +1,9 @@
 .contactsWrapper {
-  width: 100%;
+  border: #999999 solid 1px;
+  margin: 5px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
-  padding-left: 15px;
   .label {
     font-size: 36px;
   }

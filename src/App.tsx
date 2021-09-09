@@ -29,48 +29,44 @@ const App: React.FC = () => {
     }
 
     return (
-        <Layout className="layout">
-            <Header>
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[history.location.pathname]} style={{height: '100%'}}>
-                    <Menu.Item key={'/profile'}>
-                        <Link to={'/profile'}>
-                            Profile
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key={'/users'}>
-                        <Link to={'/users'}>
-                            Users
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key={'/chat'}>
-                        <Link to={'/chat'}>
-                            Chat
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key={'/settings'}>
-                        <Link to={'/settings'}>
-                            Settings
-                        </Link>
-                    </Menu.Item>
-                </Menu>
-            </Header>
-            <Content style={{padding: '0 50px'}}>
-                <Breadcrumb style={{margin: '16px 0'}}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
-                <div className="site-layout-content">
-                    <ContentNavigation/>
-                </div>
-            </Content>
-            <Footer style={{backgroundColor: '#001529'}}>
-                {isAuth ? <div style={{display: 'flex', justifyContent: 'flex-end'}}><Button onClick={() => {
-                        dispatch(logout())
-                    }}>Logout</Button></div>
-                    : <div style={{display: "flex", justifyContent: "center"}}><span>Social Network</span></div>}
-            </Footer>
-        </Layout>
+            <Layout className="layout" style={{minWidth: '859px'}}>
+                <Header>
+                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[history.location.pathname]}
+                          style={{height: '100%'}}>
+                        <Menu.Item key={'/profile'}>
+                            <Link to={'/profile'}>
+                                Profile
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key={'/users'}>
+                            <Link to={'/users'}>
+                                Users
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key={'/chat'}>
+                            <Link to={'/chat'}>
+                                Chat
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key={'/settings'}>
+                            <Link to={'/settings'}>
+                                Settings
+                            </Link>
+                        </Menu.Item>
+                    </Menu>
+                </Header>
+                <Content style={{padding: '0 50px', paddingTop: '50px'}}>
+                    <div className="site-layout-content">
+                        <ContentNavigation/>
+                    </div>
+                </Content>
+                <Footer>
+                    {isAuth ? <div style={{display: 'flex', justifyContent: 'flex-end'}}><Button onClick={() => {
+                            dispatch(logout())
+                        }} type={'primary'}>Logout</Button></div>
+                        : <div style={{display: "flex", justifyContent: "center"}}><span>Social Network</span></div>}
+                </Footer>
+            </Layout>
     )
 }
 
