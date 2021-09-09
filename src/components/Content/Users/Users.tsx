@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react'
 import User from "./User/User"
-import s from './Users.module.scss'
 import UsersSearchForm from "./UsersSearchForm/UsersSearchForm";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -16,12 +15,11 @@ import {requestUsers, setFollow, setUnfollow, usersActions} from "../../../store
 import {useHistory} from 'react-router-dom';
 import {NumberParam, StringParam, useQueryParams} from "use-query-params";
 import {stringify} from "querystring";
-import {Col, Pagination, Row, Spin} from "antd";
+import {Col, Pagination, Row} from "antd";
 import {withAuthRedirect} from "../../../hoc/WithAuthRedirect";
 import MySpin from "../../common/MySpin/MySpin";
 
 const Users: React.FC = () => {
-
     const dispatch = useDispatch()
     const history = useHistory()
     const totalCount = useSelector(getTotalCount)
