@@ -13,12 +13,12 @@ import {
     getUsers
 } from "../../../selectors/users-selectors";
 import {requestUsers, setFollow, setUnfollow, usersActions} from "../../../store/reducers/usersReducer"
-import Preloader from "../../common/Preloader/Preloader";
-import { useHistory } from 'react-router-dom';
-import {useQueryParams, StringParam, BooleanParam, NumberParam} from "use-query-params";
+import {useHistory} from 'react-router-dom';
+import {NumberParam, StringParam, useQueryParams} from "use-query-params";
 import {stringify} from "querystring";
-import {Pagination} from "antd";
+import {Col, Pagination, Row, Spin} from "antd";
 import {withAuthRedirect} from "../../../hoc/WithAuthRedirect";
+import MySpin from "../../common/MySpin/MySpin";
 
 const Users: React.FC = () => {
 
@@ -34,30 +34,39 @@ const Users: React.FC = () => {
 
     const [query] = useQueryParams({
         term: StringParam,
-        friend: BooleanParam,
+        friend: StringParam,
         page: NumberParam
     })
 
     useEffect(() => {
         dispatch(usersActions.setCurrentPage(query.page ? query.page : 1))
-        dispatch(usersActions.changeFilters({followed: query.friend === undefined ? null : query.friend, term: query.term ? query.term : ''}))
+        dispatch(usersActions.changeFilters({
+            followed: query.friend === undefined ? 'null' : query.friend === 'followed' ? 'followed' : 'unfollowed',
+            term: query.term ? query.term : ''
+        }))
         dispatch(requestUsers(currentPage, pageSize, filter))
     }, [])
 
     useEffect(() => {
         const newQuery: {
             term?: string,
-            friend?: boolean,
+            friend?: 'followed' | 'unfollowed',
             page?: number
         } = {}
         if (filter.term) newQuery.term = filter.term
-        if (typeof filter.followed === 'boolean') newQuery.friend = filter.followed
+        switch (filter.followed) {
+            case "followed":
+                newQuery.friend = 'followed'
+                break
+            case "unfollowed":
+                newQuery.friend = 'unfollowed'
+        }
         if (currentPage !== 1) newQuery.page = currentPage
-       history.push({
-           pathname: '/users',
-           search: stringify(newQuery)
-       })
-   }, [filter, currentPage, history])
+        history.push({
+            pathname: '/users',
+            search: stringify(newQuery)
+        })
+    }, [filter, currentPage, history])
 
     const onPageChanged = (page: number) => {
         dispatch(usersActions.setCurrentPage(page))
@@ -73,25 +82,30 @@ const Users: React.FC = () => {
     }
 
     return (
-        <>{isFetching ? <Preloader/> :
-        <div className={s.usersWrapper}>
-            <div className={s.usersTopPanel}>
-                <Pagination defaultCurrent={currentPage} total={totalCount} onChange={onPageChanged}/>
-                <UsersSearchForm filter={filter} currentPage={currentPage} pageSize={pageSize}/>
-            </div>
-            <div className={s.usersList}>
-                {
-                    users.map(user => <User
-                        key={user.id}
-                        user={user}
-                        followingInProgress={followingInProgress}
-                        setFollow={follow}
-                        setUnfollow={unfollow}/>
-                    )
-                }
-            </div>
-        </div>}
-        </>
+        <Col>
+            <Row justify={"space-around"}>
+                <Col>{!isFetching
+                    ? <Pagination defaultCurrent={currentPage} total={totalCount} onChange={onPageChanged} style={{margin: 'auto'}}/>
+                    : <MySpin/>}
+                </Col>
+                <Col>
+                    <UsersSearchForm filter={filter} currentPage={currentPage} pageSize={pageSize}/>
+                </Col>
+            </Row>
+            {!isFetching
+                ? <div >
+                    {
+                        users.map(user => <User
+                            key={user.id}
+                            user={user}
+                            followingInProgress={followingInProgress}
+                            setFollow={follow}
+                            setUnfollow={unfollow}/>
+                        )
+                    }
+                </div>
+                : <MySpin size={'large'} style={{paddingTop: '100px'}}/>}
+        </Col>
     )
 }
 

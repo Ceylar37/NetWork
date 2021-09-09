@@ -13,7 +13,7 @@ export let usersInitialState = {
     totalCount: 1 as number,
     filter: {
         term: '',
-        followed: null as Nullable<boolean>
+        followed: 'null' as 'followed' | 'unfollowed' | 'null'
     }
 }
 
@@ -84,8 +84,10 @@ export const usersActions = {
 
 export const requestUsers = (currentPage: number, pageSize: number, payload: FilterT): UsersThunkResultT<Promise<void>> =>
     async dispatch => {
+
+        const transpiledPayload = transpilePayloadToServerT(payload)
         dispatch(usersActions.setFetch(true))
-        let data = await usersAPI.getUsers(currentPage, pageSize, payload.term, payload.followed)
+        let data = await usersAPI.getUsers(currentPage, pageSize, transpiledPayload.term, transpiledPayload.followed)
         dispatch(usersActions.setUsers(data.items))
         dispatch(usersActions.setTotalCount(data.totalCount))
         dispatch(usersActions.setFetch(false))
@@ -117,10 +119,13 @@ export const changeFiltersAndRequestUsers = (pageSize:number, payload: FilterT):
         dispatch(usersActions.setFetch(true))
         dispatch(usersActions.changeFilters(payload))
         dispatch(usersActions.setCurrentPage(1))
-        let data = await usersAPI.getUsers(1, pageSize, payload.term, payload.followed)
+        const transpiledPayload = transpilePayloadToServerT(payload)
+        let data = await usersAPI.getUsers(1, pageSize, transpiledPayload.term, transpiledPayload.followed)
         dispatch(usersActions.setUsers(data.items))
         dispatch(usersActions.setTotalCount(data.totalCount))
         dispatch(usersActions.setFetch(false))
     }
+
+    const transpilePayloadToServerT = (payload: FilterT) => ({term: payload.term, followed: payload.followed === 'followed' ? true : payload.followed === 'unfollowed' ? false : null})
 
 export default usersReducer

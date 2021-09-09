@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, Switch} from "react-router-dom";
-import s from './Content.module.scss'
 import Login from "./Login/Login";
 import Users from "./Users/Users";
 import Profile from "./Profile/Profile";
@@ -8,7 +7,7 @@ import Chat from "./Chat/Chat";
 
 const ContentNavigation = () => {
     return (
-        <div className={s.contentWrapper}>
+        <div>
             <Switch>
                 <Route exact={true} path={'/profile'}>
                     <Profile/>
@@ -23,7 +22,7 @@ const ContentNavigation = () => {
                     <Login/>
                 </Route>
                 <Route path={'/settings'}>
-                    <h1 style={{color: 'white'}}>
+                    <h1>
                         Settings
                     </h1>
                 </Route>

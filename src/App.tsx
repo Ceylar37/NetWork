@@ -29,7 +29,7 @@ const App: React.FC = () => {
     }
 
     return (
-            <Layout className="layout" style={{minWidth: '859px'}}>
+            <Layout className="layout" style={{minWidth: '1070px'}}>
                 <Header>
                     <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[history.location.pathname]}
                           style={{height: '100%'}}>

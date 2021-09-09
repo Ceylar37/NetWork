@@ -24,10 +24,7 @@ export type UserT = {
     followed: boolean
 }
 
-export type FilterT = {
-    term: string
-    followed: null | boolean
-}
+export type FilterT = typeof usersInitialState.filter
 
 export type UsersActionT = ReturnType<PropertiesType<typeof usersActions>>
 
