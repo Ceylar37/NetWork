@@ -1,9 +1,9 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {Redirect} from 'react-router'
-import {login} from "../../../store/reducers/authReducer";
+import {authActions, login} from "../../../store/reducers/authReducer";
 import {getCaptchaUrl, getErrorMessage, getIsAuthorised} from "../../../selectors/auth-selector";
-import {Button, Checkbox, Form, Input} from "antd";
+import {Button, Checkbox, Form, Input, message, Space} from "antd";
 
 
 type Errors = {
@@ -26,8 +26,14 @@ const Login: React.FC = () => {
     const isAuthorised = useSelector(getIsAuthorised)
     const captchaUrl = useSelector(getCaptchaUrl)
 
+    useEffect(() => {
+        if (errorMessage) {
+            message.error(errorMessage)
+            dispatch(authActions.setError(null))
+        }
+    }, [errorMessage])
+
     const onSubmit = async (formData: FormData) => {
-        debugger
         dispatch(login(formData.email, formData.password, formData.rememberMe === undefined ? false : formData.rememberMe, formData.captcha))
     }
     if (isAuthorised) {
@@ -35,10 +41,10 @@ const Login: React.FC = () => {
     }
 
     return <Form name={'login-form'} onFinish={onSubmit}>
-        <Form.Item name={'email'} rules={[{required: true, message: 'Email is required', min: 6}]}>
+        <Form.Item name={'email'} rules={[{required: true, message: 'Email is required'}]}>
             <Input placeholder={'Email'}/>
         </Form.Item>
-        <Form.Item name={'password'} rules={[{required: true, message: 'Password is required', min: 6}]}>
+        <Form.Item name={'password'} rules={[{required: true, message: 'Password is required'}, {min: 6, message: 'Password is too short'}]}>
             <Input placeholder={'Password'} type={'password'}/>
         </Form.Item>
         <Form.Item name={'rememberMe'} valuePropName="checked">
@@ -47,9 +53,12 @@ const Login: React.FC = () => {
             </Checkbox>
         </Form.Item>
         {captchaUrl &&
-        <Form.Item name={captchaUrl} rules={[{required: true, message: 'Captcha is required'}]}>
+            <Space>
+                <img src={captchaUrl} alt={'captcha'}/>
+        <Form.Item name={'captcha'} rules={[{required: true, message: 'Captcha is required'}]}>
             <Input placeholder={'Captcha'}/>
-        </Form.Item>}
+        </Form.Item>
+            </Space>}
         <Form.Item>
             <Button type={'primary'} htmlType={'submit'}>Login</Button>
         </Form.Item>

@@ -16,7 +16,6 @@ import {useHistory} from 'react-router-dom';
 import {NumberParam, StringParam, useQueryParams} from "use-query-params";
 import {stringify} from "querystring";
 import {Col, Pagination, Row} from "antd";
-import {withAuthRedirect} from "../../../hoc/WithAuthRedirect";
 import MySpin from "../../common/MySpin/MySpin";
 
 const Users: React.FC = () => {
@@ -107,4 +106,4 @@ const Users: React.FC = () => {
     )
 }
 
-export default withAuthRedirect(Users)
+export default Users

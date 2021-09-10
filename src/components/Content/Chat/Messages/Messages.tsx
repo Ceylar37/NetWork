@@ -18,6 +18,7 @@ const Messages:React.FC = () => {
         }
     }, [messages, isAutoScroll])
 
+
     const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
         const curElement = e.currentTarget
         if (Math.abs((curElement.scrollHeight - curElement.scrollTop) - curElement.clientHeight) < 100) {
@@ -32,7 +33,7 @@ const Messages:React.FC = () => {
             messages.map((message) =>
                 <Message message={message} key={message.messageId} myId={myId}/>)
         }
-        <div ref={scrollableDiv}></div>
+        <div ref={scrollableDiv}/>
     </div>
 }
 

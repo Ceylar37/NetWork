@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getInitialize, getIsAuthorised} from "./selectors/auth-selector";
 import {initializeApp} from "./store/reducers/appReducer";
 import {Link, useHistory} from 'react-router-dom';
-import {Breadcrumb, Button, Layout, Menu} from 'antd';
+import {Button, Layout, Menu} from 'antd';
 import ContentNavigation from "./components/Content/ContentNavigation";
 import {logout} from "./store/reducers/authReducer";
 
@@ -31,8 +31,8 @@ const App: React.FC = () => {
     return (
             <Layout className="layout" style={{minWidth: '1070px'}}>
                 <Header>
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[history.location.pathname]}
-                          style={{height: '100%'}}>
+                    {isAuth && <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[history.location.pathname]}
+                           style={{height: '100%'}}>
                         <Menu.Item key={'/profile'}>
                             <Link to={'/profile'}>
                                 Profile
@@ -53,7 +53,7 @@ const App: React.FC = () => {
                                 Settings
                             </Link>
                         </Menu.Item>
-                    </Menu>
+                    </Menu>}
                 </Header>
                 <Content style={{padding: '0 50px', paddingTop: '50px'}}>
                     <div className="site-layout-content">

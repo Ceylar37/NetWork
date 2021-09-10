@@ -11,7 +11,9 @@ export const authAPI = {
             password,
             rememberMe,
             captcha
-        }).then(res => res.data)
+        }).then(res => {
+            return res.data
+        })
     },
     logout() {
         return instance.delete<Put_Delete_PostResponseT>('auth/login').then(res => res.data)

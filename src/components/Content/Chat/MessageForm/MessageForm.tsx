@@ -18,7 +18,7 @@ const MessageForm:React.FC = () => {
             <Row justify={'end'}>
                 <Col span={22}>
                     <Form.Item name={'message'}>
-                        <Input.TextArea placeholder={'Enter message text'}/>
+                        <Input.TextArea autoSize={true} placeholder={'Enter message text'}/>
                     </Form.Item>
                 </Col>
                 <Col span={2}>

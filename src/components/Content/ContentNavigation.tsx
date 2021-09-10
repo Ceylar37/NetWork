@@ -1,37 +1,34 @@
-import React from 'react';
-import {Route, Switch} from "react-router-dom";
-import Login from "./Login/Login";
-import Users from "./Users/Users";
-import Profile from "./Profile/Profile";
-import Chat from "./Chat/Chat";
+import React from 'react'
+import {Route, Switch} from "react-router-dom"
+import {useSelector} from "react-redux"
+import {getIsAuthorised} from "../../selectors/auth-selector"
+import {privateRoutes, publicRoutes} from "../../router"
 
-const ContentNavigation = () => {
+const ContentNavigation: React.FC = () => {
+
+    const isAuth = useSelector(getIsAuthorised)
+
     return (
         <div>
-            <Switch>
-                <Route exact={true} path={'/profile'}>
-                    <Profile/>
-                </Route>
-                <Route path={'/profile/:userId?'}>
-                    <Profile/>
-                </Route>
-                <Route path={'/users'}>
-                    <Users/>
-                </Route>
-                <Route path={'/login'}>
-                    <Login/>
-                </Route>
-                <Route path={'/settings'}>
-                    <h1>
-                        Settings
-                    </h1>
-                </Route>
-                <Route path={'/chat'}>
-                    <Chat/>
-                </Route>
-            </Switch>
+            {isAuth
+                ? <Switch>
+                    {privateRoutes.map((route) =>
+                        <Route
+                            path={route.path}
+                            exact={route.exact}
+                            component={route.component}
+                        />)}
+                </Switch>
+                : <Switch>
+                    {publicRoutes.map((route) =>
+                        <Route
+                            path={route.path}
+                            exact={route.exact}
+                            component={route.component}
+                        />)}
+                </Switch>}
         </div>
-    );
-};
+    )
+}
 
-export default ContentNavigation;
+export default ContentNavigation

@@ -43,7 +43,7 @@ export const authActions = {
         type: AuthActionsType.SET_USER_DATA, payload: {id, email, login, photo, isAuthorised}
     } as const),
     setCaptchaUrl: (url: string) => ({type: AuthActionsType.SET_CAPTCHA_URL, payload: url} as const),
-    setErrors: (errorMessage: Nullable<string>) => ({type: AuthActionsType.SET_ERROR, payload: errorMessage} as const)
+    setError: (errorMessage: Nullable<string>) => ({type: AuthActionsType.SET_ERROR, payload: errorMessage} as const)
 }
 
 export const auth = (): AuthThunkResultT<Promise<void>> => async dispatch => {
@@ -66,13 +66,13 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     let data = await authAPI.login(email, password, rememberMe, captcha)
     if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(auth())
-        dispatch(authActions.setErrors(null))
+        dispatch(authActions.setError(null))
     } else {
         if (data.resultCode === ResultCodeEnum.RequireCaptcha) {
             dispatch(getCaptchaURL())
         }
         let message = data.messages.length > 0 ? data.messages[0] : 'Something went wrong!'
-        dispatch(authActions.setErrors(message))
+        dispatch(authActions.setError(message))
     }
 }
 

@@ -3,15 +3,14 @@ import {ContactsT, ProfileT} from "../../../types/ProfileTypes"
 import s from './Profile.module.scss'
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import Contacts from "./Contacts/Contacts"
-import {Form} from 'react-final-form'
 import ProfileInfoForm from "./ProfileInfo/ProfileInfoForm"
 import ContactsForm from "./Contacts/ContactsForm"
 import Preloader from "../../common/Preloader/Preloader";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getProfileIsFetching,
     getProfile,
     getProfileErrorMessages,
+    getProfileIsFetching,
     getStatus
 } from "../../../selectors/profile-selectors";
 import {
@@ -23,13 +22,13 @@ import {
 } from "../../../store/reducers/profileReducer";
 import {getMyId} from "../../../selectors/auth-selector";
 import {useHistory} from 'react-router-dom'
-import {Button, Col, Row} from "antd";
+import {Button, Col, Form, Row} from "antd";
 import MyAvatar from "../../common/Avatar/MyAvatar";
-import {withAuthRedirect} from "../../../hoc/WithAuthRedirect";
+import MySpin from "../../common/MySpin/MySpin";
 
 type ValueT = {
     aboutMe: string,
-    lookingForAJob: boolean,
+    lookingForAJob: boolean | undefined,
     lookingForAJobDescription: string,
     fullName: string
 } & ContactsT
@@ -45,6 +44,7 @@ const Profile: React.FC = () => {
     const errorMessages = useSelector(getProfileErrorMessages)
     const me = useSelector(getMyId)
 
+    const [submitting, editSubmitting] = useState<boolean>(false)
     const [isProfilePhotoUpdating, editIsProfilePhotoUpdating] = useState<boolean>(false)
     const [isProfileDataEditModeOn, toggleProfileDataEditMode] = useState<boolean>(false)
     const inpRef = useRef<HTMLInputElement>(null)
@@ -80,11 +80,13 @@ const Profile: React.FC = () => {
     }, [history.location.pathname, refreshProfile])
 
     const onSubmit = async (value: ValueT) => {
+        debugger
+        editSubmitting(true)
         let payload: ProfileT = {
             userId: profile.userId,
             fullName: value.fullName,
             aboutMe: value.aboutMe,
-            lookingForAJob: value.lookingForAJob,
+            lookingForAJob: value.lookingForAJob === undefined ? false : value.lookingForAJob,
             lookingForAJobDescription: value.lookingForAJobDescription,
             photos: {...profile.photos},
             contacts: {
@@ -98,7 +100,8 @@ const Profile: React.FC = () => {
                 youtube: value.youtube
             }
         }
-        dispatch(updateProfileInfo(payload))
+        await dispatch(updateProfileInfo(payload))
+        editSubmitting(false)
         if (!errorMessages) {
             toggleProfileDataEditMode(false)
         }
@@ -114,39 +117,34 @@ const Profile: React.FC = () => {
                             : <MyAvatar src={profile.photos.small} width={'100%'}/>}
                     </Col>
                     <Col span={19}>{isProfileDataEditModeOn
-                        ? <Form onSubmit={onSubmit}
-                                initialValues={{
-                                    fullName: profile.fullName,
-                                    aboutMe: profile.aboutMe,
-                                    lookingForAJob: profile.lookingForAJob,
-                                    lookingForAJobDescription: profile.lookingForAJobDescription,
-                                    ...profile.contacts
-                                }}
-                                render={({handleSubmit, form, submitting, pristine, values}) => (
-                                    <form onSubmit={handleSubmit}>
-                                        <Col>
-                                            <Row>
-                                                <Col span={12}>
-                                                    <ProfileInfoForm submitting={submitting} profile={profile}
-                                                                     status={status}
-                                                                     updateStatus={updateStatusWrapper}
-                                                                     profileDataEditMode={isProfileDataEditModeOn}/>
-                                                </Col>
-                                                <Col span={12}>
-                                                    <ContactsForm submitting={submitting} contacts={profile.contacts}/>
-                                                </Col>
-                                            </Row>
-                                            <Row className={s.buttons}>
-                                                <button className='button' type={'submit'} disabled={submitting}>Save
-                                                    Changes
-                                                </button>
-                                            </Row>
-                                            {errorMessages ? <span className={s.error}>{errorMessages.map(e =>
-                                                <span key={e}>{e}<br/></span>)}</span> : null}
-                                        </Col>
-                                    </form>
-                                )}
-                        /> : <Col>
+                        ? <Form name={'profile-form'} onFinish={onSubmit}>
+                            <Col>
+                                <Row>
+                                    <Col span={12}>
+                                        <ProfileInfoForm submitting={submitting} profile={profile}
+                                                         status={status}
+                                                         updateStatus={updateStatusWrapper}
+                                                         profileDataEditMode={isProfileDataEditModeOn}
+                                                         aboutMe={profile.aboutMe}
+                                                        fullName={profile.fullName}
+                                                        lookingForAJob={profile.lookingForAJob}
+                                                        lookingForAJobDescription={profile.lookingForAJobDescription}
+                                                        isOwner={isOwner}/>
+                                    </Col>
+                                    <Col span={12}>
+                                        <ContactsForm submitting={submitting} contacts={profile.contacts}/>
+                                    </Col>
+                                </Row>
+                                <Row className={s.buttons}>
+                                    <Button className='button' type={'primary'} htmlType={"submit"} disabled={submitting}>Save
+                                        Changes
+                                    </Button>
+                                </Row>
+                                {errorMessages ? <span className={s.error}>{errorMessages.map(e =>
+                                    <span key={e}>{e}<br/></span>)}</span> : null}
+                            </Col>
+                        </Form>
+                        : <Col>
                             <Row>
                                 <Col span={12}><ProfileInfo isOwner={isOwner} profile={profile} status={status}
                                                             updateStatus={updateStatusWrapper}
@@ -174,10 +172,10 @@ const Profile: React.FC = () => {
                         </Col>}
                     </Col>
                 </Row>
-                : <Preloader/>}
+                : <MySpin size={"large"}/>}
         </>
 
     )
 }
 
-export default withAuthRedirect(Profile)
+export default Profile

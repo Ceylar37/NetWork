@@ -1,15 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {Field} from "react-final-form";
 import s from './ProfileInfo.module.scss'
 import {ProfileT} from "../../../../types/ProfileTypes";
+import {Checkbox, Form, Input} from "antd";
+import {Nullable} from "../../../../types/GlobalTypes";
+import Status from "../../../common/Status";
 
 type PropsT = {
     profile: ProfileT,
     status: string,
     profileDataEditMode: boolean
     submitting: boolean
+    fullName: Nullable<string>,
+    aboutMe: Nullable<string>,
+    lookingForAJob: Nullable<boolean>,
+    lookingForAJobDescription: Nullable<string>
+    isOwner: boolean
 
-    updateStatus: (status: string) =>void
+    updateStatus: (status: string) => void
 }
 
 const ProfileInfoForm: React.FC<PropsT> = (props) => {
@@ -22,17 +29,19 @@ const ProfileInfoForm: React.FC<PropsT> = (props) => {
 
     return (
         <div className={s.profileInfoWrapper}>
-            <Field disabled={props.submitting} className={s.name} name={'fullName'} component={'input'} type={'text'}
-                   placeholder={'Login'}/>
-            <span>Status: {status}</span>
-            <span>About me: <Field disabled={props.submitting} name={'aboutMe'} component={'input'} type={'text'}
-                                   placeholder={'About Me'}/></span>
-            <span>Looking For A Job: <Field disabled={props.submitting} name={'lookingForAJob'} component={'input'}
-                                            type={'checkbox'}/></span>
-            <span>Looking for a job description: <Field disabled={props.submitting} name={'lookingForAJobDescription'}
-                                                        component={'input'} type={'text'}
-                                                        placeholder={'Looking for a job description'}/>
-                        </span>
+            <Form.Item label={'Login:'} initialValue={props.fullName} name={'fullName'}>
+                <Input disabled={props.submitting} placeholder={'Login'}/>
+            </Form.Item>
+            <Status isOwner={props.isOwner}/>
+                <Form.Item label={'About me:'} initialValue={props.aboutMe} name={'aboutMe'}>
+                    <Input disabled={props.submitting} placeholder={'About Me'}/>
+                </Form.Item>
+            <Form.Item initialValue={props.lookingForAJob} name={'lookingForAJob'} valuePropName="checked">
+                <Checkbox>Looking for a job</Checkbox>
+            </Form.Item>
+                <Form.Item label={'Looking for a job description:'} initialValue={props.lookingForAJobDescription} name={'lookingForAJobDescription'}>
+                    <Input disabled={props.submitting} placeholder={'Looking for a job description'}/>
+                </Form.Item>
         </div>
     );
 };
