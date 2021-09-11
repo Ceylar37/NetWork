@@ -33,13 +33,12 @@ beforeEach(() => {
         ],
         pageSize: 10,
         currentPage: 1,
-        currentPortion: 1,
         isFetching: false,
         followingInProgress: [],
-        totalCount: null,
+        totalCount: 1,
         filter: {
             term: '',
-            friend: null
+            followed: 'null' as "null" | "followed" | "unfollowed"
         }
     }
 })
