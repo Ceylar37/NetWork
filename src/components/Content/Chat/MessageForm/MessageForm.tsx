@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button, Col, Form, Input, Row} from "antd";
 import {useDispatch} from "react-redux";
-import {sendMessage} from "../../../../store/reducers/ChatReducer";
+import {sendMessage} from "../../../../store/slice-reducers/chatReducer";
 
 const MessageForm:React.FC = () => {
 

@@ -1,6 +1,12 @@
-import {usersAPI} from "../../serverApi/serverApi";
 import {ResultCodeEnum, UsersResponseT} from "../../types/RequestTypes";
-import {changeFiltersAndRequestUsers, requestUsers, setFollow, setUnfollow, usersActions} from "./usersReducer";
+import {usersAPI} from "../../serverApi/users";
+import {
+    changeFiltersAndRequestUsers,
+    requestUsers,
+    setFollow,
+    setUnfollow,
+    usersActions
+} from "./usersReducer";
 
 
 jest.mock('../../serverApi/serverApi')
@@ -15,7 +21,7 @@ beforeEach(() => {
 })
 
 const result: UsersResponseT = {
-    errorMessage: [],
+    error: [],
     items: [
         {
             name: '0',
@@ -48,13 +54,14 @@ const result: UsersResponseT = {
 test('setFollow Test', async () => {
     const thunk = setFollow(1)
     usersAPIMock.follow.mockReturnValue(Promise.resolve(ResultCodeEnum.Success));
+    usersAPIMock.follow.mockReturnValue(Promise.resolve(ResultCodeEnum.Success));
 
     await thunk(dispatchMock, getStateMock, undefined)
 
     expect(dispatchMock).toBeCalledTimes(3)
-    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.toggleFollowingProgress(true, 1))
-    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.follow(1))
-    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.toggleFollowingProgress(false, 1))
+    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.toggleFollowingProgress({isFetching: true, id: 1}))
+    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.follow({userId: 1}))
+    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.toggleFollowingProgress({isFetching: false, id: 1}))
 })
 
 test('setUnfollow Test', async () => {
@@ -64,16 +71,16 @@ test('setUnfollow Test', async () => {
     await thunk(dispatchMock, getStateMock, undefined)
 
     expect(dispatchMock).toBeCalledTimes(3)
-    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.toggleFollowingProgress(true, 1))
-    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.unfollow(1))
-    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.toggleFollowingProgress(false, 1))
+    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.toggleFollowingProgress({isFetching: true, id: 1}))
+    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.unfollow({userId: 1}))
+    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.toggleFollowingProgress({isFetching: false, id: 1}))
 
 })
 
 test('requestUsers Test', async () => {
     const thunk = requestUsers(1, 4, {
         term: '',
-        followed: null
+        followed: 'null'
     })
 
     usersAPIMock.getUsers.mockResolvedValue(result)
@@ -81,16 +88,16 @@ test('requestUsers Test', async () => {
     await thunk(dispatchMock, getStateMock, undefined)
 
     expect(dispatchMock).toBeCalledTimes(4)
-    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.setFetch(true))
-    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.setUsers(result.items))
-    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.setTotalCount(result.totalCount))
-    expect(dispatchMock).toHaveBeenNthCalledWith(4, usersActions.setFetch(false))
+    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.setFetch({isFetching: true}))
+    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.setUsers({users: result.items}))
+    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.setTotalCount({totalCount: result.totalCount}))
+    expect(dispatchMock).toHaveBeenNthCalledWith(4, usersActions.setFetch({isFetching: false}))
 })
 
 test('changeFiltersAndRequestUsers Test', async () => {
     const thunk = changeFiltersAndRequestUsers(4, {
         term: '',
-        followed: null
+        followed: 'null'
     })
     usersAPIMock.getUsers.mockResolvedValue(result)
 

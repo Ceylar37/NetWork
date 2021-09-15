@@ -3,7 +3,7 @@ import s from './ProfileInfo.module.scss'
 import {ProfileT} from "../../../../types/ProfileTypes";
 import {Checkbox, Form, Input} from "antd";
 import {Nullable} from "../../../../types/GlobalTypes";
-import Status from "../../../common/Status";
+import Status from "../../../common/Status/Status";
 
 type PropsT = {
     profile: ProfileT,

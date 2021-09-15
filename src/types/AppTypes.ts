@@ -1,11 +1,5 @@
-import {appActions, appInitialState} from "../store/reducers/appReducer";
 import {PropertiesType, ThunkResultT} from "./GlobalTypes";
-
-export enum AppActionsType {
-    INITIALIZED_SUCCESS = 'app/INITIALIZED-SUCCESS'
-}
-
-export type AppStateT = typeof appInitialState
+import {appActions} from "../store/slice-reducers/appReducer";
 
 export type AppActionT = ReturnType<PropertiesType<typeof appActions>>
 

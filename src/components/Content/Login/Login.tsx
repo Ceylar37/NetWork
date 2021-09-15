@@ -1,9 +1,9 @@
 import React, {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {Redirect} from 'react-router'
-import {authActions, login} from "../../../store/reducers/authReducer";
 import {getCaptchaUrl, getErrorMessage, getIsAuthorised} from "../../../selectors/auth-selector";
 import {Button, Checkbox, Form, Input, message, Space} from "antd";
+import {authActions, login} from "../../../store/slice-reducers/authReducer";
 
 
 type Errors = {
@@ -29,12 +29,17 @@ const Login: React.FC = () => {
     useEffect(() => {
         if (errorMessage) {
             message.error(errorMessage)
-            dispatch(authActions.setError(null))
+            dispatch(authActions.setError({errorMessage: null}))
         }
     }, [errorMessage])
 
     const onSubmit = async (formData: FormData) => {
-        dispatch(login(formData.email, formData.password, formData.rememberMe === undefined ? false : formData.rememberMe, formData.captcha))
+        dispatch(login({
+            email: formData.email,
+            password: formData.password,
+            rememberMe: formData.rememberMe === undefined ? false : formData.rememberMe,
+            captcha: formData.captcha || undefined
+        }))
     }
     if (isAuthorised) {
         return <Redirect to={'/profile'}/>

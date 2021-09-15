@@ -1,4 +1,4 @@
-import {rootReducer, store} from "../store/store";
+import {store} from "../store/store";
 import {ThunkAction} from "redux-thunk";
 import {Action} from "redux";
 
@@ -11,3 +11,8 @@ export type RootStateT = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
 export type ThunkResultT<R, A extends Action> = ThunkAction<R, RootStateT, undefined, A>
+
+export interface IThunkAPI {
+    dispatch: AppDispatch
+    state: RootStateT
+}

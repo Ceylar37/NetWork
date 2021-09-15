@@ -5,7 +5,6 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import Contacts from "./Contacts/Contacts"
 import ProfileInfoForm from "./ProfileInfo/ProfileInfoForm"
 import ContactsForm from "./Contacts/ContactsForm"
-import Preloader from "../../common/Preloader/Preloader";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getProfile,
@@ -13,18 +12,18 @@ import {
     getProfileIsFetching,
     getStatus
 } from "../../../selectors/profile-selectors";
-import {
-    requestStatus,
-    setProfileData,
-    updateProfileInfo,
-    updateProfilePhoto,
-    updateStatus
-} from "../../../store/reducers/profileReducer";
+
 import {getMyId} from "../../../selectors/auth-selector";
 import {useHistory} from 'react-router-dom'
 import {Button, Col, Form, Row} from "antd";
 import MyAvatar from "../../common/Avatar/MyAvatar";
 import MySpin from "../../common/MySpin/MySpin";
+import {
+    requestStatus,
+    setProfileData, updateProfileInfo,
+    updateProfilePhoto,
+    updateStatus
+} from "../../../store/slice-reducers/profileReducer";
 
 type ValueT = {
     aboutMe: string,
@@ -113,7 +112,7 @@ const Profile: React.FC = () => {
                 ? <Row>
                     <Col span={5}>
                         {isProfilePhotoUpdating
-                            ? <Preloader/>
+                            ? <MySpin size={"large"}/>
                             : <MyAvatar src={profile.photos.small} width={'100%'}/>}
                     </Col>
                     <Col span={19}>{isProfileDataEditModeOn

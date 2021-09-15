@@ -1,5 +1,5 @@
 import {UsersStateT} from "../../types/UsersTypes";
-import usersReducer, {usersActions} from "./usersReducer";
+import {usersActions, usersReducer} from "./usersReducer";
 
 let state: UsersStateT;
 
@@ -45,8 +45,8 @@ beforeEach(() => {
 
 test('Follow/Unfollow Test', () => {
 
-    let newState = usersReducer(state, usersActions.follow(1))
-    newState = usersReducer(newState, usersActions.unfollow(3))
+    let newState = usersReducer(state, usersActions.follow({userId: 1}))
+    newState = usersReducer(newState, usersActions.unfollow({userId: 3}))
 
     expect(newState.users[0].followed).toBeTruthy()
     expect(newState.users[1].followed).toBeTruthy()

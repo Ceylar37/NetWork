@@ -1,8 +1,8 @@
 import React from 'react'
 import {useDispatch} from "react-redux"
-import {changeFiltersAndRequestUsers} from "../../../../store/reducers/usersReducer"
 import {FilterT} from "../../../../types/UsersTypes"
 import {Button, Form, Input, Select} from "antd";
+import {changeFiltersAndRequestUsers} from "../../../../store/slice-reducers/usersReducer";
 
 const {Item} = Form
 
@@ -24,7 +24,7 @@ const UsersSearchForm: React.FC<PropsT> = (props) => {
 
     let onSubmit = (values: ValuesT) => {
         debugger
-        dispatch(changeFiltersAndRequestUsers(props.pageSize, {term: values.username, followed: values.isFollowed}))
+        dispatch(changeFiltersAndRequestUsers({pageSize: props.pageSize, filter: {term: values.username, followed: values.isFollowed}}))
     }
 
     return (

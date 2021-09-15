@@ -14,6 +14,7 @@ const ContentNavigation: React.FC = () => {
                 ? <Switch>
                     {privateRoutes.map((route) =>
                         <Route
+                            key={route.path}
                             path={route.path}
                             exact={route.exact}
                             component={route.component}
@@ -22,6 +23,7 @@ const ContentNavigation: React.FC = () => {
                 : <Switch>
                     {publicRoutes.map((route) =>
                         <Route
+                            key={route.path}
                             path={route.path}
                             exact={route.exact}
                             component={route.component}

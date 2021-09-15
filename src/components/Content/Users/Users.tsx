@@ -11,12 +11,12 @@ import {
     getTotalCount,
     getUsers
 } from "../../../selectors/users-selectors";
-import {requestUsers, setFollow, setUnfollow, usersActions} from "../../../store/reducers/usersReducer"
 import {useHistory} from 'react-router-dom';
 import {NumberParam, StringParam, useQueryParams} from "use-query-params";
 import {stringify} from "querystring";
 import {Col, Pagination, Row} from "antd";
 import MySpin from "../../common/MySpin/MySpin";
+import {requestUsers, setFollow, setUnfollow, usersActions} from "../../../store/slice-reducers/usersReducer";
 
 const Users: React.FC = () => {
     const dispatch = useDispatch()
@@ -36,12 +36,12 @@ const Users: React.FC = () => {
     })
 
     useEffect(() => {
-        dispatch(usersActions.setCurrentPage(query.page ? query.page : 1))
-        dispatch(usersActions.changeFilters({
+        dispatch(usersActions.setCurrentPage({currentPage: query.page ? query.page : 1}))
+        dispatch(usersActions.changeFilters({filter: {
             followed: query.friend === undefined ? 'null' : query.friend === 'followed' ? 'followed' : 'unfollowed',
             term: query.term ? query.term : ''
-        }))
-        dispatch(requestUsers(currentPage, pageSize, filter))
+        }}))
+        dispatch(requestUsers({currentPage, pageSize, payload: filter}))
     }, [])
 
     useEffect(() => {
@@ -66,8 +66,8 @@ const Users: React.FC = () => {
     }, [filter, currentPage, history])
 
     const onPageChanged = (page: number) => {
-        dispatch(usersActions.setCurrentPage(page))
-        dispatch(requestUsers(page, 10, filter))
+        dispatch(usersActions.setCurrentPage({currentPage: page}))
+        dispatch(requestUsers({currentPage: page, pageSize: 10, payload: filter}))
     }
 
     const follow = (id: number) => {

@@ -1,10 +1,10 @@
-import {applyMiddleware, combineReducers, createStore} from "redux"
-import thunk from "redux-thunk"
-import profileReducer from "./reducers/profileReducer"
-import usersReducer from "./reducers/usersReducer"
-import authReducer from "./reducers/authReducer"
-import appReducer from "./reducers/appReducer"
-import chatReducer from "./reducers/ChatReducer"
+import {combineReducers} from "redux"
+import {appReducer} from "./slice-reducers/appReducer";
+import {configureStore} from '@reduxjs/toolkit';
+import {authReducer} from "./slice-reducers/authReducer";
+import {chatReducer} from "./slice-reducers/chatReducer";
+import {profileReducer} from "./slice-reducers/profileReducer";
+import {usersReducer} from "./slice-reducers/usersReducer";
 
 export const rootReducer = combineReducers({
     profilePage: profileReducer,
@@ -14,8 +14,13 @@ export const rootReducer = combineReducers({
     chatPage: chatReducer
 })
 
-export const store = createStore(rootReducer, applyMiddleware(thunk))
 
+export const store = configureStore({
+    reducer: rootReducer,
+});
 
 // @ts-ignore
 window.store = store
+
+// @ts-ignore
+window.state = store.getState

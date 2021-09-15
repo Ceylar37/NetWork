@@ -3,11 +3,12 @@ import './App.scss'
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getInitialize, getIsAuthorised} from "./selectors/auth-selector";
-import {initializeApp} from "./store/reducers/appReducer";
 import {Link, useHistory} from 'react-router-dom';
 import {Button, Layout, Menu} from 'antd';
 import ContentNavigation from "./components/Content/ContentNavigation";
-import {logout} from "./store/reducers/authReducer";
+import {initializeApp} from "./store/slice-reducers/appReducer";
+import MySpin from "./components/common/MySpin/MySpin";
+import {logout} from "./store/slice-reducers/authReducer";
 
 const {Header, Footer, Content} = Layout;
 
@@ -25,7 +26,7 @@ const App: React.FC = () => {
     }, [dispatch])
 
     if (!initialized) {
-        return <></>
+        return <MySpin size={"large"}/>
     }
 
     return (

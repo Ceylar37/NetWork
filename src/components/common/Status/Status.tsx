@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {Input} from "antd"
 import {useDispatch, useSelector} from "react-redux";
-import {getStatus} from "../../selectors/profile-selectors";
-import {updateStatus} from "../../store/reducers/profileReducer";
+import {getStatus} from "../../../selectors/profile-selectors";
+import {updateStatus} from "../../../store/slice-reducers/profileReducer";
 
 type PropsT = {
     isOwner: boolean,

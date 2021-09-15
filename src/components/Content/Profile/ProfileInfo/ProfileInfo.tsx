@@ -2,7 +2,7 @@ import React from 'react';
 import {ProfileT} from "../../../../types/ProfileTypes";
 import s from './ProfileInfo.module.scss'
 import {Checkbox} from "antd";
-import Status from "../../../common/Status";
+import Status from "../../../common/Status/Status";
 
 type PropsT = {
     profile: ProfileT,

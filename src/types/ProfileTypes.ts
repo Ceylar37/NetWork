@@ -1,16 +1,5 @@
-import {profileActions, profileInitialState} from "../store/reducers/profileReducer";
 import {PropertiesType, ThunkResultT} from "./GlobalTypes";
-
-export enum profileActionsTypes {
-    SET_USER_PROFILE = 'profile/SET_USER_PROFILE',
-    SET_FETCH = 'profile/SET_FETCH',
-    SET_STATUS = 'profile/SET_STATUS',
-    UPDATE_PROFILE_PHOTO = 'profile/UPDATE_PROFILE_PHOTO',
-    UPDATE_PROFILE_INFO = 'profile/UPDATE_PROFILE_INFO',
-    EDIT_ERROR_MESSAGE = 'profile/EDIT_ERROR_MESSAGE'
-}
-
-export type ProfileStateT = typeof profileInitialState
+import {profileActions, profileInitialState} from "../store/slice-reducers/profileReducer";
 
 export type ProfileT = typeof profileInitialState.profile
 
