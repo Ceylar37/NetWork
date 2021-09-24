@@ -1,5 +1,7 @@
 import {PropertiesType, ThunkResultT} from "./GlobalTypes";
-import {authActions} from "../store/slice-reducers/authReducer";
+import {authActions, authInitialState} from "../store/slice-reducers/authReducer";
+
+export type AuthStateT = typeof authInitialState
 
 export type AuthActionT = ReturnType<PropertiesType<typeof authActions>>
 

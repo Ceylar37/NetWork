@@ -1,4 +1,4 @@
-import {Login_LogoutResponseT, MeResponseT, Put_Delete_PostResponseT} from "../types/RequestTypes";
+import {LoginResponseT, MeResponseT, Put_Delete_PostResponseT} from "../types/RequestTypes";
 import {instance} from "./serverApi";
 
 export const authAPI = {
@@ -6,7 +6,7 @@ export const authAPI = {
         return instance.get<MeResponseT>(`auth/me`).then(res => res.data)
     },
     login(email: string, password: string, rememberMe: boolean, captcha?: string) {
-        return instance.post<Login_LogoutResponseT>('auth/login', {
+        return instance.post<LoginResponseT>('auth/login', {
             email,
             password,
             rememberMe,

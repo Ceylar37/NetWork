@@ -32,7 +32,7 @@ type DefaultServerResponseT<D> = {
 
 export type Put_Delete_PostResponseT = DefaultServerResponseT<{ userId: number }>
 
-export type Login_LogoutResponseT = DefaultServerResponseT<{ userId: number }>
+export type LoginResponseT = DefaultServerResponseT<{ userId: number }>
 
 export type UpdateProfilePhotoResponseT = DefaultServerResponseT<{ photos: PhotosT }>
 

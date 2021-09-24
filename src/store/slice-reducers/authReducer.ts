@@ -1,6 +1,5 @@
 import {IThunkAPI, Nullable} from "../../types/GlobalTypes";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AuthThunkResultT} from "../../types/AuthTypes";
 import {authAPI} from "../../serverApi/auth";
 import {profileAPI} from "../../serverApi/profile";
 import {securityAPI} from "../../serverApi/security";
@@ -77,13 +76,13 @@ export const login = createAsyncThunk<
     Promise<void>,
     {email: string, password: string, rememberMe: boolean, captcha?: string},
     IThunkAPI>('auth/login', async ({email, password, rememberMe, captcha}, thunkAPI) => {
-    let data = await authAPI.login(email, password, rememberMe, captcha)
+    const data = await authAPI.login(email, password, rememberMe, captcha)
     if (data.resultCode === ResultCodeEnum.Success) {
-        thunkAPI.dispatch(auth())
+        await thunkAPI.dispatch(auth())
         thunkAPI.dispatch(authActions.setError({errorMessage: null}))
     } else {
         if (data.resultCode === ResultCodeEnum.RequireCaptcha) {
-            thunkAPI.dispatch(getCaptchaURL())
+            await thunkAPI.dispatch(getCaptchaURL())
         }
         let message = data.messages.length > 0 ? data.messages[0] : 'Something went wrong!'
         thunkAPI.dispatch(authActions.setError({errorMessage: message}))
