@@ -79,7 +79,6 @@ const Profile: React.FC = () => {
     }, [history.location.pathname, refreshProfile])
 
     const onSubmit = async (value: ValueT) => {
-        debugger
         editSubmitting(true)
         let payload: ProfileT = {
             userId: profile.userId,

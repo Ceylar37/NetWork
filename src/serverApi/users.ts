@@ -11,6 +11,7 @@ export const usersAPI = {
     },
     follow(id: number) {
         return instance.post<Put_Delete_PostResponseT>(`follow/${id}`).then(response => {
+
             return response.data.resultCode
         })
 

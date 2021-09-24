@@ -1,4 +1,4 @@
-import {FilterT, UsersActionT, UsersThunkResultT, UserT} from "../../types/UsersTypes";
+import {FilterT, UsersActionT, UserT} from "../../types/UsersTypes";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {usersAPI} from "../../serverApi/users";
 import {Dispatch} from "redux";
@@ -17,32 +17,25 @@ export let usersInitialState = {
         followed: 'null' as 'followed' | 'unfollowed' | 'null'
     }
 }
-
 interface IFollowUnfollow {
     userId: number
 }
-
 interface ISetUsers {
     users: Array<UserT>
 }
-
 interface ISetCurrentPage {
     currentPage: number
 }
-
 interface ISetTotalCount {
     totalCount: number
 }
-
 interface ISetFetch {
     isFetching: boolean
 }
-
 interface IToggleFollowingProgress {
     isFetching: boolean,
     id: number
 }
-
 interface IChangeFilters {
     filter: FilterT
 }
@@ -52,10 +45,12 @@ const usersSlice = createSlice({
     initialState: usersInitialState,
     reducers: {
         follow: (state, action: PayloadAction<IFollowUnfollow>) => {
+            debugger
             const user = state.users.find((u) => u.id === action.payload.userId)
             if (user) user.followed = true
         },
         unfollow: (state, action: PayloadAction<IFollowUnfollow>) => {
+            debugger
             const user = state.users.find((u) => u.id === action.payload.userId)
             if (user) user.followed = false
         },
@@ -75,7 +70,7 @@ const usersSlice = createSlice({
             if (action.payload.isFetching) {
                 state.followingInProgress.push(action.payload.id)
             } else {
-                state.followingInProgress.filter(id => id !== action.payload.id)
+                state.followingInProgress = state.followingInProgress.filter(id => id !== action.payload.id)
             }
         },
         changeFilters: (state, action: PayloadAction<IChangeFilters>) => {
@@ -111,7 +106,7 @@ const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionT>, id: number,
     dispatch(usersActions.toggleFollowingProgress({isFetching: true, id}))
     let resultCode = await apiMethod(id)
     if (resultCode === ResultCodeEnum.Success) {
-        dispatch(actionCreator(id))
+        dispatch(actionCreator({userId: id}))
     }
     dispatch(usersActions.toggleFollowingProgress({isFetching: false, id}))
 
@@ -121,7 +116,7 @@ export const changeFiltersAndRequestUsers = createAsyncThunk<Promise<void>,
     { pageSize: number, filter: FilterT },
     IThunkAPI>('users/changeFiltersAndRequestUsers', async ({filter, pageSize}, thunkAPI) => {
     thunkAPI.dispatch(usersActions.setFetch({isFetching: true}))
-    thunkAPI.dispatch(usersActions.changeFilters({filter: filter}))
+    thunkAPI.dispatch(usersActions.changeFilters({filter}))
     thunkAPI.dispatch(usersActions.setCurrentPage({currentPage: 1}))
     const transpiledPayload = transpilePayloadToServerT(filter)
     let data = await usersAPI.getUsers(1, pageSize, transpiledPayload.term, transpiledPayload.followed)
@@ -134,7 +129,6 @@ const transpilePayloadToServerT = (payload: FilterT) => ({
     term: payload.term,
     followed: payload.followed === 'followed' ? true : payload.followed === 'unfollowed' ? false : null
 })
-
 
 export const usersReducer = usersSlice.reducer
 export const usersActions = usersSlice.actions

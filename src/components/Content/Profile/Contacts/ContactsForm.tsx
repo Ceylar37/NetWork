@@ -13,7 +13,6 @@ const ContactsForm: React.FC<PropsT> = (props) => {
         <strong className={s.contactsWrapper}>
             <span className={s.label}>Contacts:</span>
             {Object.keys(props.contacts).map((key: string) => {
-                console.log(props.contacts[key as keyof ContactsT])
                 return <Form.Item label={key} initialValue={props.contacts[key as keyof ContactsT]} name={key} key={key}>
                     <Input disabled={props.submitting} placeholder={key}/>
                 </Form.Item>

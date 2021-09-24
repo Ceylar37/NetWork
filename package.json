@@ -11,6 +11,7 @@
     "antd": "^4.16.13",
     "axios": "^0.21.1",
     "final-form": "^4.20.2",
+    "node-fetch": "^3.0.0",
     "node-sass": "^6.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -55,7 +56,9 @@
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.5",
     "@types/react-router-dom": "^5.1.7",
+    "@types/redux-mock-store": "^1.0.3",
     "@types/uuid": "^8.3.1",
+    "redux-mock-store": "^1.5.4",
     "typescript": "^4.2.4"
   }
 }
