@@ -28,7 +28,7 @@ const UsersSearchForm: React.FC<PropsT> = (props) => {
     }
 
     return (
-        <Form name={'users-search-form'} onFinish={onSubmit}>
+        <Form style={{padding: '20px'}} name={'users-search-form'} onFinish={onSubmit}>
             <Input.Group compact>
                 <Form.Item name={'username'} initialValue={props.filter.term}>
                     <Input placeholder={'Enter username'} style={{height: '32px'}}/>

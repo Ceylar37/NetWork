@@ -14,16 +14,16 @@ const MessageForm:React.FC = () => {
     }
 
     return (
-        <Form layout={'horizontal'} name={'chatMessageForm'} onFinish={onSubmit} autoComplete={'off'}>
-            <Row justify={'end'}>
-                <Col span={22}>
-                    <Form.Item name={'message'}>
-                        <Input.TextArea autoSize={true} placeholder={'Enter message text'}/>
+        <Form layout={'horizontal'} name={'chatMessageForm'} onFinish={onSubmit} autoComplete={'off'} style={{height: '32px'}}>
+            <Row justify={'end'} style={{height: '32px'}}>
+                <Col style={{height: '32px', flex: 1}}>
+                    <Form.Item name={'message'} style={{flex: 1}}>
+                        <Input.TextArea autoSize={true} placeholder={'Enter message text'} style={{height: '32px', width: '100%'}}/>
                     </Form.Item>
                 </Col>
-                <Col span={2}>
+                <Col style={{height: '32px'}}>
                     <Form.Item>
-                        <Button style={{width: '100%'}} type={'primary'} htmlType={'submit'}>
+                        <Button style={{width: '100%', height: '32px'}} type={'primary'} htmlType={'submit'} >
                             Send
                         </Button>
                     </Form.Item>

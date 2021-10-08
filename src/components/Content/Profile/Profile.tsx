@@ -108,17 +108,17 @@ const Profile: React.FC = () => {
     return (
         <>
             {!isFetching
-                ? <Row>
-                    <Col span={5}>
+                ? <Row justify={"space-around"}>
+                    <Col style={{width: '100%', maxWidth: '300px'}}>
                         {isProfilePhotoUpdating
                             ? <MySpin size={"large"}/>
                             : <MyAvatar src={profile.photos.small} width={'100%'}/>}
                     </Col>
-                    <Col span={19}>{isProfileDataEditModeOn
+                    <Col >{isProfileDataEditModeOn
                         ? <Form name={'profile-form'} onFinish={onSubmit}>
                             <Col>
                                 <Row>
-                                    <Col span={12}>
+                                    <Col >
                                         <ProfileInfoForm submitting={submitting} profile={profile}
                                                          status={status}
                                                          updateStatus={updateStatusWrapper}
@@ -129,7 +129,7 @@ const Profile: React.FC = () => {
                                                         lookingForAJobDescription={profile.lookingForAJobDescription}
                                                         isOwner={isOwner}/>
                                     </Col>
-                                    <Col span={12}>
+                                    <Col >
                                         <ContactsForm submitting={submitting} contacts={profile.contacts}/>
                                     </Col>
                                 </Row>
@@ -144,11 +144,11 @@ const Profile: React.FC = () => {
                         </Form>
                         : <Col>
                             <Row>
-                                <Col span={12}><ProfileInfo isOwner={isOwner} profile={profile} status={status}
+                                <Col ><ProfileInfo isOwner={isOwner} profile={profile} status={status}
                                                             updateStatus={updateStatusWrapper}
                                                             profileDataEditMode={isProfileDataEditModeOn}/>
                                 </Col>
-                                <Col span={12}>
+                                <Col >
                                     <Contacts contacts={profile.contacts}
                                               profileDataEditMode={isProfileDataEditModeOn}/>
                                 </Col>

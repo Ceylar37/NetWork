@@ -96,7 +96,18 @@ export const mockResponses = {
             messages: [] as string[],
             fieldsErrors: []
         }
-    } as AxiosResponse<Put_Delete_PostResponseT>
+    } as AxiosResponse<Put_Delete_PostResponseT>,
+    updateStatus: {
+        fieldsErrors: [],
+        messages: [],
+        resultCode: ResultCodeEnum.Success,
+        data: {
+            photos: {
+                large: 'sag',
+                small: 'uytrtyui'
+            }
+        }
+    } as UpdateProfilePhotoResponseT
 }
 
 export const spyAllAPIMethodsAndClearActions = () => {

@@ -30,10 +30,10 @@ const App: React.FC = () => {
     }
 
     return (
-            <Layout className="layout" style={{minWidth: '1070px'}}>
+        <Layout>
                 <Header>
                     {isAuth && <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[history.location.pathname]}
-                           style={{height: '100%'}}>
+                                     style={{height: '100%'}}>
                         <Menu.Item key={'/profile'}>
                             <Link to={'/profile'}>
                                 Profile
@@ -56,18 +56,19 @@ const App: React.FC = () => {
                         </Menu.Item>
                     </Menu>}
                 </Header>
-                <Content style={{padding: '0 50px', paddingTop: '50px'}}>
+                <Content style={{padding: '10px 20px', paddingTop: '50px'}}>
                     <div className="site-layout-content">
                         <ContentNavigation/>
                     </div>
                 </Content>
-                <Footer>
-                    {isAuth ? <div style={{display: 'flex', justifyContent: 'flex-end'}}><Button onClick={() => {
-                            dispatch(logout())
-                        }} type={'primary'}>Logout</Button></div>
-                        : <div style={{display: "flex", justifyContent: "center"}}><span>Social Network</span></div>}
-                </Footer>
-            </Layout>
+            <Footer>
+                <hr/>
+                {isAuth ? <div style={{display: 'flex', justifyContent: 'flex-end'}}><Button onClick={() => {
+                        dispatch(logout())
+                    }} type={'primary'}>Logout</Button></div>
+                    : <div style={{display: "flex", justifyContent: "center"}}><span>Social Network</span></div>}
+            </Footer>
+        </Layout>
     )
 }
 

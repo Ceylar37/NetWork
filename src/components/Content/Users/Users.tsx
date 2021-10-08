@@ -82,7 +82,7 @@ const Users: React.FC = () => {
         <Col>
             <Row justify={"space-around"}>
                 <Col>{!isFetching
-                    ? <Pagination defaultCurrent={currentPage} total={totalCount} onChange={onPageChanged} style={{margin: 'auto'}}/>
+                    ? <Pagination size="small" defaultCurrent={currentPage} total={totalCount} onChange={onPageChanged} style={{margin: 'auto'}}/>
                     : <MySpin/>}
                 </Col>
                 <Col>

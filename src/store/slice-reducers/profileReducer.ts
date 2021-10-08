@@ -85,8 +85,8 @@ export const setProfileData = createAsyncThunk<Promise<void>,
     IThunkAPI>('profile/setProfileData', async (id, thunkAPI) => {
     thunkAPI.dispatch(profileActions.setFetch({isFetching: true}))
     let data = await profileAPI.getProfileData(id)
-    thunkAPI.dispatch(profileActions.setFetch({isFetching: false}))
     thunkAPI.dispatch(profileActions.setUserProfile({profile: data}))
+    thunkAPI.dispatch(profileActions.setFetch({isFetching: false}))
 })
 
 export const updateProfilePhoto = createAsyncThunk<Promise<void>,

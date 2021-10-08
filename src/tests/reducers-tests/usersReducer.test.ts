@@ -144,7 +144,7 @@ describe('async actions', () => {
     test('requestUsers', async () => {
         await mockStore.dispatch(requestUsers({pageSize: 2, payload: {followed: 'null', term: ''}, currentPage: 1}))
 
-        const actions: AnyAction[] = getActions()
+        const actions = getActions()
         expect(actions[0].type).toBe(requestUsers.pending.type)
         expect(actions[1]).toEqual(usersActions.setFetch({isFetching: true}))
         expect(actions[2]).toEqual(usersActions.setUsers({users: mockResponses.getUsers.items}))
@@ -156,7 +156,7 @@ describe('async actions', () => {
     test('setFollow', async () => {
         await mockStore.dispatch(setFollow(1))
 
-        const actions: AnyAction[] = getActions()
+        const actions = getActions()
         expect(actions[0].type).toBe(setFollow.pending.type)
         expect(actions[1]).toEqual(usersActions.toggleFollowingProgress({isFetching: true, id: 1}))
         expect(actions[2]).toEqual(usersActions.follow({userId: 1}))
@@ -167,7 +167,7 @@ describe('async actions', () => {
     test('setUnfollow', async () => {
         await mockStore.dispatch(setUnfollow(1))
 
-        const actions: AnyAction[] = getActions()
+        const actions = getActions()
         expect(actions[0].type).toBe(setUnfollow.pending.type)
         expect(actions[1]).toEqual(usersActions.toggleFollowingProgress({isFetching: true, id: 1}))
         expect(actions[2]).toEqual(usersActions.unfollow({userId: 1}))
@@ -180,7 +180,7 @@ describe('async actions', () => {
         const filter: FilterT = {term: 'aa', followed: 'followed'}
         await mockStore.dispatch(changeFiltersAndRequestUsers({pageSize, filter}))
 
-        const actions: AnyAction[] = getActions()
+        const actions = getActions()
         expect(actions[0].type).toBe(changeFiltersAndRequestUsers.pending.type)
         expect(actions[1]).toEqual(usersActions.setFetch({isFetching: true}))
         expect(actions[2]).toEqual(usersActions.changeFilters({filter}))
